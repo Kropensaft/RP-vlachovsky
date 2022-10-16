@@ -10,13 +10,13 @@ public class Flashlight : MonoBehaviour
     [SerializeField] GameObject FuelBar;
     [SerializeField] GameObject flashlight;
     public bool flashlightLoaded = true;
-
+   
     
 
     public LampFuel Fuel;
     public Light2D CandleLight;
 
-
+    
     public void Start()
     {
         FlashlightOff();
@@ -42,7 +42,8 @@ public class Flashlight : MonoBehaviour
         flashlightLoaded = false;   
     }
 
-        
+  
+
     public void Update()
     {
 
@@ -63,11 +64,13 @@ public class Flashlight : MonoBehaviour
         else
         {
             FlashlightOff();
-           
-
         }
-        if (Fuel.fuel <= 0f)
+
+        if (Fuel.fuel <= .1f)
             Debug.Log("Fuel is at 0");
+           
+        
+            
     }
 
 
