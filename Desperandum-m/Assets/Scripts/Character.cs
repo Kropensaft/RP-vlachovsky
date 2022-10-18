@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 
@@ -10,7 +11,6 @@ public class Character : MonoBehaviour
 {
 
     [SerializeField] GameObject beans;
-
     [SerializeField] GameObject fuelCan;
 
     public float speed;
@@ -51,6 +51,9 @@ public class Character : MonoBehaviour
 
     float beanHealth;
     // Start is called before the first frame update
+
+  
+
     void Start()
     {
         Initialization();
@@ -153,6 +156,11 @@ public class Character : MonoBehaviour
             Die();
         }
 
+        if(Input.GetMouseButtonDown(2))
+        {
+            TakeDamage(10);
+        }
+        
     }
 
     public void TakeDamage(float damage)
@@ -161,12 +169,16 @@ public class Character : MonoBehaviour
 
         healthBar.SetHealth(currentHealth);
     }
-    
+
+
+   
+
     void Die()
     {
         
             animator.Play("Base Layer.Death", 0, 1f);
             Destroy(gameObject, 2f);
+            SceneManager.LoadScene("MainMenu");
         
     }
 
@@ -246,7 +258,7 @@ public class Character : MonoBehaviour
 
 
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Restored 15 HP");
+            Debug.Log("Restored 15 HP" + currentHealth);
             healthBar.SetHealth(currentHealth + beanHealth);
             Destroy(beans);
 

@@ -8,7 +8,7 @@ public class WeepingAngelAI : MonoBehaviour
 
     
 
-    private Rigidbody2D rigid;
+   
 
     public float HP;
     public float MaxHP = 30;
@@ -20,14 +20,13 @@ public class WeepingAngelAI : MonoBehaviour
     //Get the coordinations of the cones outer border 
 
     [SerializeField] GameObject Player;
-    [SerializeField] GameObject Angel;
+    
 
 
     //Flashlight
     public Flashlight flashlight;
     public Character player;
     public Animator animator;
-    private EnemyMovement angel;
     public float posY;
     public float posX;
     public float offsetR;
@@ -40,10 +39,9 @@ public class WeepingAngelAI : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        rigid = transform.GetComponent<Rigidbody2D>();
+    
         player = GameObject.FindObjectOfType(typeof(Character)) as Character;
        // Healthbar.SetHealth(HP, MaxHP);
-        angel = Angel.GetComponent<EnemyMovement>();
         HP = MaxHP;
         
        
@@ -70,7 +68,7 @@ public class WeepingAngelAI : MonoBehaviour
         offsetR = posX - 1.8f;
         CharX = Player.transform.position.x;
 
-        Flashlight flashlight = Player.GetComponent<Flashlight>();
+        flashlight = Player.GetComponent<Flashlight>();
         //Healthbar.SetHealth(HP, MaxHP);
         
         
@@ -87,14 +85,14 @@ public class WeepingAngelAI : MonoBehaviour
 
     void checkForRadius()
     {
-         if (posX >= offsetR && angel.facingRight && flashlight.flashlightLoaded)
+         if (posX >= offsetR &&  flashlight.flashlightLoaded)
              {
           
             takeDamage();
             Debug.Log("Touched inner radius from right");
                             
              }
-        else if(posX <= CharX && !angel.facingRight && flashlight.flashlightLoaded) 
+        else if(posX <= CharX &&   flashlight.flashlightLoaded) 
         {
             Debug.Log("Touched inner radius from left");
             takeDamage();
