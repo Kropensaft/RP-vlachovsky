@@ -15,8 +15,9 @@ public class Flashlight : MonoBehaviour
 
     public LampFuel Fuel;
     public Light2D CandleLight;
+    public Light2D Lantern;
 
-    
+   
     public void Start()
     {
         FlashlightOff();
@@ -25,14 +26,14 @@ public class Flashlight : MonoBehaviour
     }
 
 
-
-   public void FlashlightOn()
+   
+    public void FlashlightOn()
     {
        
         flashlight.SetActive(true);
         CandleLight.intensity = .7f;
         flashlightLoaded = true;
-       
+        
     }
 
    public void FlashlightOff()

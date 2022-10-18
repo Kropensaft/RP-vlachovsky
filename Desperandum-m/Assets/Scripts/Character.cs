@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
     public bool IsFalling = false;
     public float FallTreshold = -10f;
     public float jumpVelocity = 4f;
-
+  
 
     //Attack func.
     public bool IsAttacking = false;
@@ -51,7 +51,7 @@ public class Character : MonoBehaviour
 
     float beanHealth;
     // Start is called before the first frame update
-
+    public AudioSource WalkAudio;
   
 
     void Start()
@@ -115,9 +115,7 @@ public class Character : MonoBehaviour
 
 
     }
-
-    // Update is called once per frame
-
+   
     void Update()
     {
         ScoreText.text = "Score: " + score;
@@ -160,7 +158,29 @@ public class Character : MonoBehaviour
         {
             TakeDamage(10);
         }
-        
+
+
+
+     
+
+        if (Input.GetKeyDown(KeyCode.D) && IsGrounded())
+
+        {
+            WalkAudio.UnPause();
+
+        }
+        else if (Input.GetKeyDown(KeyCode.A) && IsGrounded())
+        {
+            WalkAudio.UnPause();
+
+        }
+
+        else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
+        {
+            WalkAudio.Pause();
+
+
+        }
     }
 
     public void TakeDamage(float damage)
@@ -268,6 +288,10 @@ public class Character : MonoBehaviour
         }
 
     }
+    void PlayFootsteps()
+    {
 
+       
+    }
 
 }
