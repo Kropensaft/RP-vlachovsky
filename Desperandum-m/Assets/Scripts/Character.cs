@@ -34,7 +34,7 @@ public class Character : MonoBehaviour
 
     [HideInInspector]
     public bool isFacingLeft;
-
+    public bool IsDead;
     //Fall state values
     public bool IsFalling = false;
     public float FallTreshold = -10f;
@@ -43,7 +43,6 @@ public class Character : MonoBehaviour
 
     //Attack func.
     public bool IsAttacking = false;
-    float DamagePoint;
     public Transform attackPoint;
     public int score;
     public Flashlight flashlight;
@@ -70,7 +69,7 @@ public class Character : MonoBehaviour
         currentHealth = maxHealth;
         flip = GetComponent<Flip>();
 
-        Flashlight flashlight = GetComponent<Flashlight>();
+        flashlight = GetComponent<Flashlight>();
 
         healthBar.SetMaxHealth(maxHealth);
         score = 0;
@@ -97,14 +96,18 @@ public class Character : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal") * runSpeed;
         float vertical = Input.GetAxis("Vertical");
 
-        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        animator.SetFloat("speed", Mathf.Abs(horizontal));
         Vector2 movement = new Vector2(horizontal, vertical);
 
         rigid.AddForce(movement * speed);
 
 
 
+        if (currentHealth <= 0)
+        {
+            IsDead = true;
 
+        }
 
 
 
@@ -119,6 +122,7 @@ public class Character : MonoBehaviour
     void Update()
     {
         ScoreText.text = "Score: " + score;
+        animator.SetFloat("currentHealth", currentHealth);
 
         //Collision Check
 
@@ -126,13 +130,16 @@ public class Character : MonoBehaviour
         {
             RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
             // Debug.Log(raycastHit2d.collider);
+            animator.SetBool("IsGrounded", true);
             return raycastHit2d.collider != null;
+            
         }
 
         if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             rigid.velocity = Vector2.up * jumpVelocity;
-            animator.Play("Base Layer.Jump", 0, 1f);
+            rigid.AddForce(Physics.gravity * 4 * rigid.mass);
+            animator.Play("Base Layer.minerJump", 0, 1f);
         }
 
         //Check for Fall State
@@ -140,19 +147,19 @@ public class Character : MonoBehaviour
         {
             IsFalling = true;
             Debug.Log("Character is falling");
-            animator.Play("Base Layer.Fall", 0, 0.25f);
+            animator.SetBool("IsFalling", true);
+
 
         }
         else
         {
+            animator.SetBool("IsFalling", false);
             IsFalling = false;
+           
 
         }
 
-        if(currentHealth <= 0)
-        {
-            Die();
-        }
+       
 
         if(Input.GetMouseButtonDown(2))
         {
@@ -188,18 +195,23 @@ public class Character : MonoBehaviour
         currentHealth -= damage;
 
         healthBar.SetHealth(currentHealth);
+       
+        if(IsDead)
+        {
+            animator.SetTrigger("IsDead");
+            rigid.bodyType = RigidbodyType2D.Static;
+            Invoke(nameof(InvokeScene), 2f);
+
+        }
     }
 
 
    
 
-    void Die()
+  
+    void InvokeScene()
     {
-        
-            animator.Play("Base Layer.Death", 0, 1f);
-            Destroy(gameObject, 2f);
-            SceneManager.LoadScene("MainMenu");
-        
+        SceneManager.LoadScene("MainMenu");
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -288,10 +300,6 @@ public class Character : MonoBehaviour
         }
 
     }
-    void PlayFootsteps()
-    {
-
-       
-    }
+   
 
 }

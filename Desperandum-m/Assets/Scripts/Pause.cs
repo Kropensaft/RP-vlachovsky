@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Pause : MonoBehaviour
 {
+    
 
     public bool IsPaused;
- 
-
+   
 
 
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -44,7 +44,11 @@ public class Pause : MonoBehaviour
 
     public void Menu()
     {
-        Time.timeScale = 0f;
-        SceneManager.LoadScene("PauseMenu");
+        
+            Time.timeScale = 0f;
+            SceneManager.LoadScene("PauseMenu");
+        
+
+        
     }
 }
