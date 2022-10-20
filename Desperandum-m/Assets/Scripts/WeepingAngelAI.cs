@@ -14,7 +14,7 @@ public class WeepingAngelAI : MonoBehaviour
     public float MaxHP = 30;
     //public EnemyHealthBar Healthbar;
     public bool isDead = false;
-
+    public bool canBeAttacked = false;
 
 
     //Get the coordinations of the cones outer border 
@@ -22,7 +22,7 @@ public class WeepingAngelAI : MonoBehaviour
     [SerializeField] GameObject Player;
 
 
-
+    private WeepingAngelMovement angelMovement;
     //Flashlight
     public Flashlight flashlight;
     public Character player;
@@ -42,6 +42,7 @@ public class WeepingAngelAI : MonoBehaviour
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         player = GameObject.FindObjectOfType(typeof(Character)) as Character;
+        angelMovement = GetComponent<WeepingAngelMovement>();
         HP = MaxHP;
 
 
@@ -63,6 +64,7 @@ public class WeepingAngelAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         posY = transform.position.y;
         posX = transform.position.x - 4.99773f;
         offsetR = posX - 1.8f;
@@ -80,7 +82,7 @@ public class WeepingAngelAI : MonoBehaviour
             Debug.Log("Killed an Enemy");
         }
 
-        
+
     }
 
 
@@ -89,15 +91,23 @@ public class WeepingAngelAI : MonoBehaviour
     {
         if (posX >= offsetR && flashlight.flashlightLoaded && !isDead)
         {
-
-            takeDamage();
+            if(canBeAttacked)
+            {
+               takeDamage();
+            }
+            
             Debug.Log("Touched inner radius from right");
 
         }
-        else if (posX <= CharX && flashlight.flashlightLoaded && !isDead)
+        else if (posX <= CharX && flashlight.flashlightLoaded && !isDead && !angelMovement.IsStatic && canBeAttacked)
         {
+            if (canBeAttacked)
+            {
+                takeDamage();
+            }
+
             Debug.Log("Touched inner radius from left");
-            takeDamage();
+            
 
         }
     }
@@ -109,37 +119,28 @@ public class WeepingAngelAI : MonoBehaviour
 
         if (collision.gameObject.tag == "Sprite")
         {
+            if(!isDead)
+            {
+                player.TakeDamage(Time.deltaTime * WeepingAngelDamage);
 
-            player.TakeDamage(Time.deltaTime * WeepingAngelDamage);
+            }
             Debug.Log("Attacking Player");
             animator.SetBool("IsAttacking", true);
            
-
+            
 
 
         }
 
+        
 
     }
 
-//    void OnTriggerEnter2D(Collider2D collision)
-//{
-//    if (collision.gameObject.tag == "Sprite")
-//    {
-
-//        player.TakeDamage(Time.deltaTime * WeepingAngelDamage);
-//        Debug.Log("Attacking Player");
-//        animator.SetBool("IsAttacking", true);
-//        animator.Play("Base Layer.Attack", 0, 1f);
-
-
-
-//    }
-//}
 
 void OnTriggerExit2D(Collider2D collision)
     {
             animator.SetBool("IsAttacking", false);
+           
 
     }
 
@@ -148,10 +149,17 @@ void OnTriggerExit2D(Collider2D collision)
         rigid.bodyType = RigidbodyType2D.Static;
         isDead = true;
         animator.SetTrigger("IsDead");
-        Destroy(gameObject, 2.35f);
+        Destroy(gameObject, 2f);
         player.score += 10;
     }
-
-   
     
+void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Sprite")
+           {
+               canBeAttacked = true;
+           }
+
+    }
+
 }

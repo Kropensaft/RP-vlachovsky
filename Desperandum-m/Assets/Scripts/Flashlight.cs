@@ -23,11 +23,13 @@ public class Flashlight : MonoBehaviour
         FlashlightOff();
         flashlightLoaded = true;
         Fuel = FuelBar.GetComponent<LampFuel>();
+        
+
     }
 
 
-   
-    public void FlashlightOn()
+
+public void FlashlightOn()
     {
        
         flashlight.SetActive(true);

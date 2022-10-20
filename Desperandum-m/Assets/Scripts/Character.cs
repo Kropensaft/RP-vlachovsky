@@ -71,6 +71,7 @@ public class Character : MonoBehaviour
 
         flashlight = GetComponent<Flashlight>();
 
+        isFacingLeft = false;
         healthBar.SetMaxHealth(maxHealth);
         score = 0;
         beanHealth = 15f;
@@ -126,6 +127,17 @@ public class Character : MonoBehaviour
 
         //Collision Check
 
+
+        if (transform.lossyScale.x == -1)
+        {
+            isFacingLeft = true;
+        }
+        else
+        {
+            isFacingLeft = false;
+        }
+
+        
         bool IsGrounded()
         {
             RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
