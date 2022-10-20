@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Heal
+  - Sprite
+  - WeepingAngel
   layers:
   - Default
   - TransparentFX

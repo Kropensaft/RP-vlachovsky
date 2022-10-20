@@ -6,60 +6,60 @@ using UnityEngine.Rendering.Universal;
 public class WeepingAngelAI : MonoBehaviour
 {
 
-    
 
-   
+
+
 
     public float HP;
     public float MaxHP = 30;
     //public EnemyHealthBar Healthbar;
     public bool isDead = false;
-    
-    
+
+
 
     //Get the coordinations of the cones outer border 
 
     [SerializeField] GameObject Player;
-    
+
 
 
     //Flashlight
     public Flashlight flashlight;
     public Character player;
     public Animator animator;
+    private Rigidbody2D rigid;
     public float posY;
     public float posX;
     public float offsetR;
     public float WeepingAngelDamage = 5f;
     public float speed = 1.5f;
     protected float CharX;
-    
-   
+
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-    
+        rigid = GetComponent<Rigidbody2D>();
         player = GameObject.FindObjectOfType(typeof(Character)) as Character;
-       // Healthbar.SetHealth(HP, MaxHP);
         HP = MaxHP;
-        
-       
+
+
     }
 
     void takeDamage()
     {
         HP -= .08f;
-        //Healthbar.SetHealth(HP, MaxHP);
+
 
         if (HP <= 0)
         {
-            
+
             Death();
         }
 
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -70,29 +70,31 @@ public class WeepingAngelAI : MonoBehaviour
 
         flashlight = Player.GetComponent<Flashlight>();
         //Healthbar.SetHealth(HP, MaxHP);
-        
-        
+
+
         checkForRadius();
 
-        if(isDead == true)
+        if (isDead == true)
         {
+
             Debug.Log("Killed an Enemy");
         }
-      
+
+        
     }
 
-   
+
 
     void checkForRadius()
     {
-         if (posX >= offsetR &&  flashlight.flashlightLoaded)
-             {
-          
+        if (posX >= offsetR && flashlight.flashlightLoaded && !isDead)
+        {
+
             takeDamage();
             Debug.Log("Touched inner radius from right");
-                            
-             }
-        else if(posX <= CharX &&   flashlight.flashlightLoaded) 
+
+        }
+        else if (posX <= CharX && flashlight.flashlightLoaded && !isDead)
         {
             Debug.Log("Touched inner radius from left");
             takeDamage();
@@ -100,21 +102,56 @@ public class WeepingAngelAI : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+
+
+    void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Sprite")
+
+        if (collision.gameObject.tag == "Sprite")
         {
-            animator.Play("Base Layer.Attack1", 0, 3f);
-            player.TakeDamage(WeepingAngelDamage);
+
+            player.TakeDamage(Time.deltaTime * WeepingAngelDamage);
+            Debug.Log("Attacking Player");
+            animator.SetBool("IsAttacking", true);
+           
+
+
+
         }
+
+
     }
 
+//    void OnTriggerEnter2D(Collider2D collision)
+//{
+//    if (collision.gameObject.tag == "Sprite")
+//    {
 
-  void Death()
+//        player.TakeDamage(Time.deltaTime * WeepingAngelDamage);
+//        Debug.Log("Attacking Player");
+//        animator.SetBool("IsAttacking", true);
+//        animator.Play("Base Layer.Attack", 0, 1f);
+
+
+
+//    }
+//}
+
+void OnTriggerExit2D(Collider2D collision)
     {
-        
-        isDead = true;
-        player.score += 10;
-        Destroy(gameObject, 0f);
+            animator.SetBool("IsAttacking", false);
+
     }
+
+    void Death()
+    {
+        rigid.bodyType = RigidbodyType2D.Static;
+        isDead = true;
+        animator.SetTrigger("IsDead");
+        Destroy(gameObject, 2.35f);
+        player.score += 10;
+    }
+
+   
+    
 }

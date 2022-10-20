@@ -200,7 +200,7 @@ public class Character : MonoBehaviour
         {
             animator.SetTrigger("IsDead");
             rigid.bodyType = RigidbodyType2D.Static;
-            Invoke(nameof(InvokeScene), 2f);
+            Invoke(nameof(InvokeScene), 2.12f);
 
         }
     }
@@ -212,6 +212,7 @@ public class Character : MonoBehaviour
     void InvokeScene()
     {
         SceneManager.LoadScene("MainMenu");
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
