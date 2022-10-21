@@ -12,12 +12,12 @@ public class Character : MonoBehaviour
 
     [SerializeField] GameObject beans;
     [SerializeField] GameObject fuelCan;
-
+    
     public float speed;
     public float maxHealth = 100;
     public float currentHealth;
     public LampFuel FuelBar;
-
+    public Image lowHealthBorder;
     public HealthBar healthBar;
 
 
@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     private Rigidbody2D rigid;
     private BoxCollider2D boxCollider2d;
     private Animator animator;
-
+    public WeepingAngelAI Angel;
 
     //Facing Direction
 
@@ -39,9 +39,11 @@ public class Character : MonoBehaviour
     public bool IsFalling = false;
     public float FallTreshold = -10f;
     public float jumpVelocity = 4f;
-  
+
 
     //Attack func.
+    private CameraShake cameraShake;
+    public Camera _camera;
     public bool IsAttacking = false;
     public Transform attackPoint;
     public int score;
@@ -68,15 +70,17 @@ public class Character : MonoBehaviour
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         flip = GetComponent<Flip>();
-
+        _camera = GetComponent<Camera>();
         flashlight = GetComponent<Flashlight>();
-
+        WalkAudio.Pause();
+        Angel = GetComponent<WeepingAngelAI>();
         isFacingLeft = false;
         healthBar.SetMaxHealth(maxHealth);
+        lowHealthBorder.enabled = false;
         score = 0;
         beanHealth = 15f;
         ScoreText.text = "Score: "+ score;
-
+        
     }
 
 
@@ -122,10 +126,12 @@ public class Character : MonoBehaviour
    
     void Update()
     {
+        
         ScoreText.text = "Score: " + score;
         animator.SetFloat("currentHealth", currentHealth);
 
         //Collision Check
+      
 
 
         if (transform.lossyScale.x == -1)
@@ -202,23 +208,30 @@ public class Character : MonoBehaviour
         }
     }
 
+
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
         healthBar.SetHealth(currentHealth);
-       
+        
         if(IsDead)
         {
             animator.SetTrigger("IsDead");
             rigid.bodyType = RigidbodyType2D.Static;
-            Invoke(nameof(InvokeScene), 2.12f);
+            Invoke(nameof(InvokeScene), 1.50f);
 
         }
+        if (currentHealth < (maxHealth / 3) && !IsDead)
+        {
+            lowHealthBorder.enabled = true; 
+        }
+        else 
+            lowHealthBorder.enabled = false;
     }
 
 
-   
+ 
 
   
     void InvokeScene()

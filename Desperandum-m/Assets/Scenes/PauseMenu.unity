@@ -177,7 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53b9a75ad298ac44add8e257860b072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstLevel: FirstLevel
   loadingScene: LoadingScene
 --- !u!114 &637231516
 MonoBehaviour:
@@ -568,7 +567,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53b9a75ad298ac44add8e257860b072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstLevel: FirstLevel
   loadingScene: LoadingScene
 --- !u!1 &850081331
 GameObject:
@@ -759,7 +757,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.66
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -872,7 +870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 32
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -1141,6 +1139,7 @@ GameObject:
   - component: {fileID: 1873443492}
   - component: {fileID: 1873443491}
   - component: {fileID: 1873443490}
+  - component: {fileID: 1873443493}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -1212,7 +1211,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1873443491}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1873443493}
+        m_TargetAssemblyTypeName: ButtonUI, Assembly-CSharp
+        m_MethodName: LoadOptions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1873443491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,6 +1262,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873443488}
   m_CullTransparentMesh: 1
+--- !u!114 &1873443493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873443488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53b9a75ad298ac44add8e257860b072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScene: LoadingScene
 --- !u!1 &2073243308
 GameObject:
   m_ObjectHideFlags: 0

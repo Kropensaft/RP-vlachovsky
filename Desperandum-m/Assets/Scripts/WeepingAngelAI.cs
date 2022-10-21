@@ -12,7 +12,6 @@ public class WeepingAngelAI : MonoBehaviour
 
     public float HP;
     public float MaxHP = 30;
-    //public EnemyHealthBar Healthbar;
     public bool isDead = false;
     public bool canBeAttacked = false;
 
@@ -44,8 +43,7 @@ public class WeepingAngelAI : MonoBehaviour
         player = GameObject.FindObjectOfType(typeof(Character)) as Character;
         angelMovement = GetComponent<WeepingAngelMovement>();
         HP = MaxHP;
-
-
+        
     }
 
     void takeDamage()
@@ -122,6 +120,7 @@ public class WeepingAngelAI : MonoBehaviour
             if(!isDead)
             {
                 player.TakeDamage(Time.deltaTime * WeepingAngelDamage);
+               
 
             }
             Debug.Log("Attacking Player");
@@ -141,6 +140,7 @@ void OnTriggerExit2D(Collider2D collision)
     {
             animator.SetBool("IsAttacking", false);
            
+
 
     }
 
