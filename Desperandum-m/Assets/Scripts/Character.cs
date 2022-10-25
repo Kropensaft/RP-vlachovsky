@@ -167,7 +167,7 @@ public class Character : MonoBehaviour
             //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("Restored 15 HP");
             healthBar.SetHealth(currentHealth += beanHealth);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
 
             if (currentHealth > maxHealth)
             {

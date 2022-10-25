@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 21484080755723456}
   - component: {fileID: 21484080755723463}
   - component: {fileID: 21484080755723457}
+  - component: {fileID: -2883212798474981590}
   m_Layer: 0
   m_Name: healingBeans
   m_TagString: Untagged
@@ -334,9 +335,24 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 4.4049683
+--- !u!114 &-2883212798474981590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21484080755723461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739c42ec31a34c848a41e05d6703cc1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healingBeans: {fileID: 21484080755723461}
+  coll: {fileID: 21484080755723457}
+  HealhtRespawnTime: 5
