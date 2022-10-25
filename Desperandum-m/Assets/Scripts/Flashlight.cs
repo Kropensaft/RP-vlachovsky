@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class Flashlight : MonoBehaviour
 {
 
     [SerializeField] GameObject FuelBar;
     [SerializeField] GameObject flashlight;
-    public bool flashlightLoaded = true;
-   
     
+    public bool flashlightLoaded = true;
 
+
+    public Character player;
     public LampFuel Fuel;
     public Light2D CandleLight;
     public Light2D Lantern;
@@ -23,7 +25,7 @@ public class Flashlight : MonoBehaviour
         FlashlightOff();
         flashlightLoaded = true;
         Fuel = FuelBar.GetComponent<LampFuel>();
-        
+        Character player = GetComponent<Character>();
 
     }
 
@@ -31,7 +33,7 @@ public class Flashlight : MonoBehaviour
 
 public void FlashlightOn()
     {
-       
+     
         flashlight.SetActive(true);
         CandleLight.intensity = .7f;
         flashlightLoaded = true;
@@ -42,16 +44,18 @@ public void FlashlightOn()
     {
         flashlight.SetActive(false);
         CandleLight.intensity = 1.25f;
-        flashlightLoaded = false;   
+        flashlightLoaded = false;
+        
+
     }
 
-  
+
 
     public void Update()
     {
+        
 
-
-        if (Input.GetMouseButton(0) && Fuel.fuel > 0.1f)
+        if (Input.GetMouseButton(0) && player.currentFuel > 0.1f)
         {
             flashlightLoaded = false;
 
@@ -59,6 +63,9 @@ public void FlashlightOn()
             {
                 FlashlightOn();
                 
+               
+
+
             }
 
 
@@ -69,7 +76,7 @@ public void FlashlightOn()
             FlashlightOff();
         }
 
-        if (Fuel.fuel <= .1f)
+        if (player.currentFuel <= .1f)
             Debug.Log("Fuel is at 0");
            
         

@@ -14,9 +14,11 @@ public class Character : MonoBehaviour
     [SerializeField] GameObject fuelCan;
     
     public float speed;
-    public float maxHealth = 100;
+    public float maxHealth = 100f;
+    public float maxFuel = 300f;
+    public float currentFuel;
     public float currentHealth;
-    public LampFuel FuelBar;
+    public LampFuel fuelBar;
     public Image lowHealthBorder;
     public HealthBar healthBar;
 
@@ -49,8 +51,9 @@ public class Character : MonoBehaviour
     public int score;
     public Flashlight flashlight;
     public Text ScoreText;
-
+   
     float beanHealth;
+    float fuelTankCapacity;
     // Start is called before the first frame update
     public AudioSource WalkAudio;
   
@@ -61,7 +64,7 @@ public class Character : MonoBehaviour
     }
 
 
-
+   
 
     protected virtual void Initialization()
     {
@@ -69,6 +72,7 @@ public class Character : MonoBehaviour
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+        currentFuel = maxFuel;
         flip = GetComponent<Flip>();
         _camera = GetComponent<Camera>();
         flashlight = GetComponent<Flashlight>();
@@ -76,9 +80,11 @@ public class Character : MonoBehaviour
         Angel = GetComponent<WeepingAngelAI>();
         isFacingLeft = false;
         healthBar.SetMaxHealth(maxHealth);
+        fuelBar.SetMaxFuel(maxFuel);
         lowHealthBorder.enabled = false;
         score = 0;
         beanHealth = 15f;
+        fuelTankCapacity = 75f;
         ScoreText.text = "Score: "+ score;
         
     }
@@ -123,10 +129,78 @@ public class Character : MonoBehaviour
 
 
     }
-   
+    
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+
+
+
+        //Check for a match with the specified name on any GameObject that collides with your GameObject
+        if (collision.gameObject.name == "fuelTank")
+        {
+
+
+           
+
+
+
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            Debug.Log("Restored 75 fuel");
+            fuelBar.SetFuel(currentFuel += fuelTankCapacity);
+            collision.gameObject.SetActive(false);
+
+            if (currentFuel > maxFuel)
+            {
+                currentFuel = maxFuel;
+            }
+
+        }
+
+
+
+
+        if (collision.gameObject.name == "healingBeans")
+        {
+           
+
+
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            Debug.Log("Restored 15 HP");
+            healthBar.SetHealth(currentHealth += beanHealth);
+            Destroy(collision.gameObject);
+
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+
+
+        }
+
+
+
+    }
+
+    void UpdateFuel()
+    {
+        if (flashlight.flashlightLoaded)
+        {
+
+            currentFuel -= 0.1f;
+            fuelBar.SetFuel(currentFuel);
+
+        }
+
+        else if (!flashlight.flashlightLoaded)
+        {
+            fuelBar.SetFuel(currentFuel);
+        }
+    }
+
     void Update()
     {
-        
+
+        UpdateFuel();
         ScoreText.text = "Score: " + score;
         animator.SetFloat("currentHealth", currentHealth);
 
@@ -240,92 +314,7 @@ public class Character : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
 
-
-
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "fuelTank")
-        {
-            if (FuelBar.fuel > FuelBar.MaxFuel)
-            {
-                FuelBar.fuel = FuelBar.MaxFuel;
-            }
-
-
-
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Restored 25% of fuel");
-            FuelBar.FuelBar.value += 75f;
-            FuelBar.AddFuel();
-            Destroy(fuelCan);
-      
-
-        }
-
-        //Check for a match with the specific tag on any GameObject that collides with your GameObject
-        else if (collision.gameObject.tag == "Fuel")
-        {
-            if (FuelBar.fuel > FuelBar.MaxFuel)
-            {
-                FuelBar.fuel = FuelBar.MaxFuel;
-            }
-
-
-
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Restored 25% of fuel");
-            FuelBar.FuelBar.value += 75f;
-            FuelBar.AddFuel();
-            Destroy(fuelCan);
-            
-
-
-
-        }
-
-
-
-        else if (collision.gameObject.name == "healingBeans")
-        {
-            if (currentHealth > maxHealth)
-            {
-               currentHealth = maxHealth;
-            }
-
-
-
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Restored 15 HP");
-            healthBar.SetHealth(currentHealth + beanHealth);
-            Destroy(beans);
-
-
-        }
-
-        //Check for a match with the specific tag on any GameObject that collides with your GameObject
-        else if (collision.gameObject.tag == "Heal")
-        {
-
-            if (currentHealth > maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
-
-
-
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Restored 15 HP" + currentHealth);
-            healthBar.SetHealth(currentHealth + beanHealth);
-            Destroy(beans);
-
-
-
-
-        }
-
-    }
    
 
 }
