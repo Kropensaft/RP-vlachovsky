@@ -32,7 +32,7 @@ public class RespawnHealth : MonoBehaviour
         Debug.Log("Spawned Beans");
         Vector2 pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
         Instantiate(healingBeans, pos, Quaternion.identity);
-        healingBeans.SetActive(true);
+        healingBeans.SetActive(true); // Zaruèí aby se klon spawnul aktivovaný 
         coll.isTrigger = true;
 
     }

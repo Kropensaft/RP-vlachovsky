@@ -32,7 +32,7 @@ public class RespawnFuel : MonoBehaviour
         Debug.Log("Spawned Canister");
         Vector2 pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
         Instantiate(FuelCan, pos, Quaternion.identity);
-        FuelCan.SetActive(true);
+        FuelCan.SetActive(true); // Zaruèí aby se klon spawnul aktivovaný 
         coll.isTrigger = true;
 
     }

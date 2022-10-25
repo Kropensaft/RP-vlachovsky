@@ -203,9 +203,15 @@ public class Character : MonoBehaviour
         UpdateFuel();
         ScoreText.text = "Score: " + score;
         animator.SetFloat("currentHealth", currentHealth);
+       
+        
+        if(currentHealth > (maxHealth / 3))
+        {
+        lowHealthBorder.enabled = false;
 
+        }
         //Collision Check
-      
+
 
 
         if (transform.lossyScale.x == -1)
