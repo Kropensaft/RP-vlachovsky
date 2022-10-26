@@ -1,60 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 
 
 public class Character : MonoBehaviour
 {
-
+    //Pickups 
     [SerializeField] GameObject beans;
     [SerializeField] GameObject fuelCan;
-    
-    public float speed;
-    public float maxHealth = 100f;
-    public float maxFuel = 300f;
-    public float currentFuel;
-    public float currentHealth;
+    float beanHealth;
+    float fuelTankCapacity;
+
+
+    //Sliders 
     public LampFuel fuelBar;
-    public Image lowHealthBorder;
     public HealthBar healthBar;
 
+    //fuel
+    public float maxFuel = 300f;
+    public float currentFuel;
 
-    [SerializeField] private LayerMask platformsLayerMask;
+
+    //health
+    public Image lowHealthBorder;
+    public float currentHealth;
+    public float maxHealth = 100f;
+    public bool IsDead;
+
+
+    //move variables
+    [SerializeField] private LayerMask platformsLayerMask; // slouží pro grounded check
+    [HideInInspector] public bool isFacingLeft;
+    public float speed;
+    float horizontal = 0f;
+    public float runSpeed = 1.5f;
+
+
+    //Collision variables
     private Rigidbody2D rigid;
     private BoxCollider2D boxCollider2d;
-    private Animator animator;
+
+
+    //Enemy variables (angel)
     public WeepingAngelAI Angel;
 
-    //Facing Direction
 
-    public Flip flip;
+    //Animation
+    private Animator animator;
 
 
-    [HideInInspector]
-    public bool isFacingLeft;
-    public bool IsDead;
     //Fall state values
     public bool IsFalling = false;
     public float FallTreshold = -10f;
     public float jumpVelocity = 4f;
 
 
-    //Attack func.
-    private CameraShake cameraShake;
-    public Camera _camera;
-    public bool IsAttacking = false;
-    public Transform attackPoint;
-    public int score;
+    //"Combat" variables
     public Flashlight flashlight;
     public Text ScoreText;
-   
-    float beanHealth;
-    float fuelTankCapacity;
-    // Start is called before the first frame update
+    public int score;
+
+
+    //Audio
     public AudioSource WalkAudio;
   
 
@@ -64,7 +75,6 @@ public class Character : MonoBehaviour
     }
 
 
-   
 
     protected virtual void Initialization()
     {
@@ -73,8 +83,6 @@ public class Character : MonoBehaviour
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         currentFuel = maxFuel;
-        flip = GetComponent<Flip>();
-        _camera = GetComponent<Camera>();
         flashlight = GetComponent<Flashlight>();
         WalkAudio.Pause();
         Angel = GetComponent<WeepingAngelAI>();
@@ -92,14 +100,6 @@ public class Character : MonoBehaviour
 
 
 
-
-
-    float horizontal = 0f;
-    public float runSpeed = 1.5f;
-
-
-
-
     void FixedUpdate()
     {
 
@@ -111,9 +111,10 @@ public class Character : MonoBehaviour
         Vector2 movement = new Vector2(horizontal, vertical);
 
         rigid.AddForce(movement * speed);
+        rigid.velocity = new Vector2(horizontal * speed * Time.deltaTime, rigid.velocity.y);
 
-
-
+        
+        //check for death at a fixed frame rate
         if (currentHealth <= 0)
         {
             IsDead = true;
@@ -121,30 +122,16 @@ public class Character : MonoBehaviour
         }
 
 
-
-
-
-        rigid.velocity = new Vector2(horizontal * speed * Time.deltaTime, rigid.velocity.y);
-
-
-
     }
-    
+
     void OnTriggerEnter2D(Collider2D collision)
     {
 
 
 
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
+      //Add fuel if you collide with fuel tank
         if (collision.gameObject.name == "fuelTank")
         {
-
-
-           
-
-
-
-            //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("Restored 75 fuel");
             fuelBar.SetFuel(currentFuel += fuelTankCapacity);
             collision.gameObject.SetActive(false);
@@ -156,15 +143,9 @@ public class Character : MonoBehaviour
 
         }
 
-
-
-
+        //Add health if you collide with beans
         if (collision.gameObject.name == "healingBeans")
         {
-           
-
-
-            //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("Restored 15 HP");
             healthBar.SetHealth(currentHealth += beanHealth);
             collision.gameObject.SetActive(false);
@@ -173,8 +154,6 @@ public class Character : MonoBehaviour
             {
                 currentHealth = maxHealth;
             }
-
-
         }
 
 
@@ -197,6 +176,7 @@ public class Character : MonoBehaviour
         }
     }
 
+
     void Update()
     {
 
@@ -205,15 +185,16 @@ public class Character : MonoBehaviour
         animator.SetFloat("currentHealth", currentHealth);
        
         
+        //Check for health threshold to enable visual signal
         if(currentHealth > (maxHealth / 3))
         {
         lowHealthBorder.enabled = false;
 
         }
-        //Collision Check
+       
 
 
-
+        //Check transform read-only values if Character is facing left
         if (transform.lossyScale.x == -1)
         {
             isFacingLeft = true;
@@ -223,7 +204,7 @@ public class Character : MonoBehaviour
             isFacingLeft = false;
         }
 
-        
+        //Check if player is Grounded by collision, player is grounded as long as he collides with platforms layer mask
         bool IsGrounded()
         {
             RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
@@ -233,6 +214,7 @@ public class Character : MonoBehaviour
             
         }
 
+        //Jump function
         if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             rigid.velocity = Vector2.up * jumpVelocity;
@@ -253,12 +235,11 @@ public class Character : MonoBehaviour
         {
             animator.SetBool("IsFalling", false);
             IsFalling = false;
-           
 
         }
 
        
-
+        //Damage debug 
         if(Input.GetMouseButtonDown(2))
         {
             TakeDamage(10);
@@ -267,7 +248,7 @@ public class Character : MonoBehaviour
 
 
      
-
+        //Play walk audio when walking
         if (Input.GetKeyDown(KeyCode.D) && IsGrounded())
 
         {
@@ -309,9 +290,6 @@ public class Character : MonoBehaviour
         else 
             lowHealthBorder.enabled = false;
     }
-
-
- 
 
   
     void InvokeScene()
