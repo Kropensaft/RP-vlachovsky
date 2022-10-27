@@ -57,6 +57,7 @@ public class Character : MonoBehaviour
     public bool IsFalling = false;
     public float FallTreshold = -10f;
     public float jumpVelocity = 4f;
+    private bool DoubleJump;
 
 
     //"Combat" variables
@@ -67,6 +68,7 @@ public class Character : MonoBehaviour
 
     //Audio
     public AudioSource WalkAudio;
+    public AudioSource HW_pickup;
   
 
     void Start()
@@ -80,20 +82,25 @@ public class Character : MonoBehaviour
     {
         rigid = transform.GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
+        flashlight = GetComponent<Flashlight>();
+        Angel = GetComponent<WeepingAngelAI>();
         animator = GetComponent<Animator>();
+       
         currentHealth = maxHealth;
         currentFuel = maxFuel;
-        flashlight = GetComponent<Flashlight>();
+       
         WalkAudio.Pause();
-        Angel = GetComponent<WeepingAngelAI>();
+       
         isFacingLeft = false;
+        
         healthBar.SetMaxHealth(maxHealth);
         fuelBar.SetMaxFuel(maxFuel);
         lowHealthBorder.enabled = false;
+
+        ScoreText.text = "Score: " + score;
         score = 0;
         beanHealth = 15f;
         fuelTankCapacity = 75f;
-        ScoreText.text = "Score: "+ score;
         
     }
 
@@ -123,7 +130,7 @@ public class Character : MonoBehaviour
 
 
     }
-
+    void PauseChoir() { HW_pickup.Pause(); }
     void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -156,6 +163,15 @@ public class Character : MonoBehaviour
             }
         }
 
+        if(collision.gameObject.name == "HW")
+        {
+            Debug.Log("Picked up Holy Water");
+            collision.gameObject.SetActive(false);
+            HW_pickup.Play();
+            Invoke(nameof(PauseChoir), 3f);
+            
+            
+        }
 
 
     }
@@ -215,16 +231,32 @@ public class Character : MonoBehaviour
         }
 
         //Jump function
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+
+        if(IsGrounded() && !Input.GetKey(KeyCode.Space))
         {
-            rigid.velocity = Vector2.up * jumpVelocity;
-            rigid.AddForce(Physics.gravity * 4 * rigid.mass);
-            animator.Play("Base Layer.minerJump", 0, 1f);
+            DoubleJump = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if(IsGrounded() || DoubleJump)
+            {
+                rigid.velocity = new Vector2(rigid.velocity.x, jumpVelocity);
+
+                DoubleJump = !DoubleJump;
+            }    
+          
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && rigid.velocity.y > 0f)
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y * 1.2f);
+        }
+            
         //Check for Fall State
         if (rigid.velocity.y < 0 && !IsGrounded())
         {
+            
             IsFalling = true;
             Debug.Log("Character is falling");
             animator.SetBool("IsFalling", true);
@@ -233,6 +265,7 @@ public class Character : MonoBehaviour
         }
         else
         {
+            
             animator.SetBool("IsFalling", false);
             IsFalling = false;
 
@@ -269,6 +302,7 @@ public class Character : MonoBehaviour
         }
     }
 
+    
 
     public void TakeDamage(float damage)
     {

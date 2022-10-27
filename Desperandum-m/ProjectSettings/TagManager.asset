@@ -7,6 +7,7 @@ TagManager:
   - Heal
   - Sprite
   - WeepingAngel
+  - Ladder
   layers:
   - Default
   - TransparentFX
