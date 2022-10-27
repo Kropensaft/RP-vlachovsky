@@ -8,6 +8,7 @@ TagManager:
   - Sprite
   - WeepingAngel
   - Ladder
+  - GenerateShadowCasters
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Background
   - platforms
   - Light
-  - 
+  - Minimap
   - 
   - 
   - 

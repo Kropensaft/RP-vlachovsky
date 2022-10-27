@@ -12,8 +12,8 @@ public class Character : MonoBehaviour
     //Pickups 
     [SerializeField] GameObject beans;
     [SerializeField] GameObject fuelCan;
-    float beanHealth;
-    float fuelTankCapacity;
+    public float beanHealth = 25f;
+    public float fuelTankCapacity = 100f;
 
 
     //Sliders 
@@ -39,6 +39,9 @@ public class Character : MonoBehaviour
     float horizontal = 0f;
     public float runSpeed = 1.5f;
 
+    //Minimap
+    public Image minimap;
+    public RawImage miniMap;
 
     //Collision variables
     private Rigidbody2D rigid;
@@ -88,7 +91,10 @@ public class Character : MonoBehaviour
        
         currentHealth = maxHealth;
         currentFuel = maxFuel;
-       
+
+        minimap.enabled = false;
+        miniMap.enabled = false;
+
         WalkAudio.Pause();
        
         isFacingLeft = false;
@@ -99,8 +105,8 @@ public class Character : MonoBehaviour
 
         ScoreText.text = "Score: " + score;
         score = 0;
-        beanHealth = 15f;
-        fuelTankCapacity = 75f;
+        
+        
         
     }
 
@@ -131,6 +137,7 @@ public class Character : MonoBehaviour
 
     }
     void PauseChoir() { HW_pickup.Pause(); }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -173,7 +180,14 @@ public class Character : MonoBehaviour
             
         }
 
+        if (collision.gameObject.name == "mapSprite")
+        {
+            Debug.Log("Picked up a minimap");
+            collision.gameObject.SetActive(false);
+            minimap.enabled = true;
+            miniMap.enabled = true;
 
+        }
     }
 
     void UpdateFuel()
