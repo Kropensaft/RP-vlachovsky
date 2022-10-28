@@ -9,6 +9,12 @@ TagManager:
   - WeepingAngel
   - Ladder
   - GenerateShadowCasters
+  - RoomKey1
+  - Door1
+  - Door2
+  - Door3
+  - RoomKey2
+  - RoomKey3
   layers:
   - Default
   - TransparentFX

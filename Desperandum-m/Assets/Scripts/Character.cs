@@ -14,6 +14,9 @@ public class Character : MonoBehaviour
     [SerializeField] GameObject fuelCan;
     public float beanHealth = 25f;
     public float fuelTankCapacity = 100f;
+    bool RoomKeyOne;
+    bool RoomKeyTwo;
+    bool RoomKeyThree;
 
 
     //Sliders 
@@ -46,7 +49,7 @@ public class Character : MonoBehaviour
     //Collision variables
     private Rigidbody2D rigid;
     private BoxCollider2D boxCollider2d;
-
+    public Collider2D doorCollider;
 
     //Enemy variables (angel)
     public WeepingAngelAI Angel;
@@ -85,10 +88,11 @@ public class Character : MonoBehaviour
     {
         rigid = transform.GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
+        doorCollider = GetComponent<Collider2D>();
         flashlight = GetComponent<Flashlight>();
         Angel = GetComponent<WeepingAngelAI>();
         animator = GetComponent<Animator>();
-       
+        
         currentHealth = maxHealth;
         currentFuel = maxFuel;
 
@@ -105,9 +109,13 @@ public class Character : MonoBehaviour
 
         ScoreText.text = "Score: " + score;
         score = 0;
-        
-        
-        
+
+        RoomKeyOne = false;
+        RoomKeyTwo = false;
+        RoomKeyThree = false;
+
+
+
     }
 
 
@@ -138,6 +146,22 @@ public class Character : MonoBehaviour
     }
     void PauseChoir() { HW_pickup.Pause(); }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Door1" && RoomKeyOne)
+        {
+            collision.gameObject.SetActive(false);
+        }
+        if (collision.gameObject.tag == "Door2" && RoomKeyTwo)
+        {
+            collision.gameObject.SetActive(false);
+        }
+        if (collision.gameObject.tag == "Door3" && RoomKeyThree)
+        {
+            collision.gameObject.SetActive(false);
+        }
+
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -187,6 +211,28 @@ public class Character : MonoBehaviour
             minimap.enabled = true;
             miniMap.enabled = true;
 
+        }
+
+        if(collision.gameObject.tag == "RoomKey1")
+        {
+            Debug.Log("Picked up first room key");
+            collision.gameObject.SetActive(false);
+            RoomKeyOne = true;
+        }
+
+        if (collision.gameObject.tag == "RoomKey2")
+        {
+            Debug.Log("Picked up second room key");
+            collision.gameObject.SetActive(false);
+            RoomKeyTwo = true;
+
+            }
+
+        if (collision.gameObject.tag == "RoomKey3")
+        {
+            Debug.Log("Picked up third room key");
+            collision.gameObject.SetActive(false);
+            RoomKeyThree = true;
         }
     }
 
@@ -296,6 +342,10 @@ public class Character : MonoBehaviour
 
      
         //Play walk audio when walking
+        if(IsFalling)
+        {
+            WalkAudio.Pause();
+        }
         if (Input.GetKeyDown(KeyCode.D) && IsGrounded())
 
         {
@@ -314,6 +364,7 @@ public class Character : MonoBehaviour
 
 
         }
+        
     }
 
     

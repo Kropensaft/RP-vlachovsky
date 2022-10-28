@@ -28,6 +28,6 @@ public class Bar : MonoBehaviour
     
     public void LoadMenu()
     {
-        SceneManager.LoadScene("FirstLevel");
+        SceneManager.LoadScene("LoreSlideshow");
     }
 }
