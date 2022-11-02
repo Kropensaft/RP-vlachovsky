@@ -355,4 +355,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FuelCan: {fileID: 2118443055513967181}
   coll: {fileID: 2118443055513967184}
-  respawnTime: 5
+  respawnTime: 15

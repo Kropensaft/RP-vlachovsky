@@ -15,11 +15,13 @@ TagManager:
   - Door3
   - RoomKey2
   - RoomKey3
+  - Enemy
+  - tileset
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Background

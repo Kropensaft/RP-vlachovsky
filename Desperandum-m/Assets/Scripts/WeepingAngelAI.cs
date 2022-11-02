@@ -140,8 +140,6 @@ void OnTriggerExit2D(Collider2D collision)
     {
             animator.SetBool("IsAttacking", false);
            
-
-
     }
 
     void Death()

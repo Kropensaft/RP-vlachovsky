@@ -56,7 +56,7 @@ public class Character : MonoBehaviour
 
 
     //Animation
-    private Animator animator;
+    public Animator animator;
 
 
     //Fall state values
@@ -390,7 +390,13 @@ public class Character : MonoBehaviour
             lowHealthBorder.enabled = false;
     }
 
-  
+    public void TakeGoblinDamage(float damage)
+    {
+        currentFuel -= damage;
+
+        fuelBar.SetFuel(currentFuel);
+
+    }
     void InvokeScene()
     {
         SceneManager.LoadScene("MainMenu");
