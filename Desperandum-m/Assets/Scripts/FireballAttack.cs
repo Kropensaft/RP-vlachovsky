@@ -54,12 +54,14 @@ public class FireballAttack : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButton(1) && canFire && !flashlight.activeInHierarchy)
+        if(Input.GetMouseButton(1) && canFire && !flashlight.activeInHierarchy && character.currentFuel >= 0.1f)
         {
             canFire = false;
             character.animator.SetBool("IsAttacking", true);
             character.TakeGoblinDamage(fireballCost);
             Instantiate(fireball, fireballTransform.position, Quaternion.identity);
+            
+            
         }
         if(Input.GetMouseButtonUp(1))
         {

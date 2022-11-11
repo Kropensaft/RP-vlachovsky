@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     public GameObject impactEffect;
     public Rigidbody2D rigid;
     public float force;
+    public float damage;
   
 
     // Start is called before the first frame update
@@ -25,6 +26,7 @@ public class Projectile : MonoBehaviour
 
         rigid.velocity = new Vector2(direction.x, direction.y).normalized * force;
 
+        damage = .08f;
     }
 
     private void Update()
@@ -35,12 +37,15 @@ public class Projectile : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "GenerateShadowCasters")
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "WeepingAngel" || collision.gameObject.layer == 7)
+
+
         {
 
             Instantiate(impactEffect, transform.position, transform.rotation);
+
             Destroy(gameObject);
 
         }

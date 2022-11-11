@@ -17,6 +17,8 @@ TagManager:
   - RoomKey3
   - Enemy
   - tileset
+  - projectile
+  - EasterEggCave
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - platforms
   - Light
   - Minimap
-  - 
+  - projectiles
   - 
   - 
   - 

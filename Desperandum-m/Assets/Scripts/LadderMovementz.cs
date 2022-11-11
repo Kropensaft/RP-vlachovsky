@@ -36,15 +36,16 @@ public class LadderMovementz : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Ladder"))
+        if(collision.gameObject.tag == ("Ladder"))
         {
+            Debug.Log("Climbing Ladder");
             isLadder = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.CompareTag("Ladder"))
+        if(collision.gameObject.tag == ("Ladder"))
         {
             isLadder = false;
             isClimbing = false;

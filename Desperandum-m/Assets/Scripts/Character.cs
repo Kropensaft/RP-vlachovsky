@@ -53,6 +53,7 @@ public class Character : MonoBehaviour
 
     //Enemy variables (angel)
     public WeepingAngelAI Angel;
+    public GameObject angel;
 
 
     //Animation
@@ -114,7 +115,7 @@ public class Character : MonoBehaviour
         RoomKeyTwo = false;
         RoomKeyThree = false;
 
-
+       
 
     }
 
@@ -166,7 +167,6 @@ public class Character : MonoBehaviour
     {
 
 
-
       //Add fuel if you collide with fuel tank
         if (collision.gameObject.name == "fuelTank")
         {
@@ -181,6 +181,10 @@ public class Character : MonoBehaviour
 
         }
 
+        if(collision.gameObject.tag == "EasterEggCave")
+        {
+            SceneManager.LoadScene("EasterEgg");
+        }
         //Add health if you collide with beans
         if (collision.gameObject.name == "healingBeans")
         {
@@ -267,9 +271,7 @@ public class Character : MonoBehaviour
         lowHealthBorder.enabled = false;
 
         }
-       
-
-
+    
         //Check transform read-only values if Character is facing left
         if (transform.lossyScale.x == -1)
         {
@@ -405,5 +407,5 @@ public class Character : MonoBehaviour
 
 
    
-
+    
 }

@@ -153,8 +153,8 @@ MonoBehaviour:
   HP: 0
   MaxHP: 30
   isDead: 0
+  canBeAttacked: 0
   Player: {fileID: 0}
-  angelMovement: {fileID: 0}
   flashlight: {fileID: 0}
   player: {fileID: 0}
   animator: {fileID: 912522197129312567}

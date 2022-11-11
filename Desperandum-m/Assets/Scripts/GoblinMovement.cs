@@ -20,6 +20,7 @@ public class GoblinMovement : MonoBehaviour
 
     public BoxCollider2D coll;
     private Rigidbody2D rigid;
+    public GoblinAI goblin;
     public bool flip;
     public bool IsChasing = false;
     public bool IsAlive;
@@ -31,6 +32,7 @@ public class GoblinMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         Character player = GetComponent<Character>();
         rigid = transform.GetComponent<Rigidbody2D>();
+        goblin = GetComponent<GoblinAI>();
 
         IsAlive = true;
         speed = 3f;
@@ -41,13 +43,13 @@ public class GoblinMovement : MonoBehaviour
     {
         Vector3 scale = transform.localScale;
 
-            if (IsChasing && Player.transform.position.x > transform.position.x)
+            if (IsChasing && Player.transform.position.x > transform.position.x && !goblin.isDead)
             {
                 scale.x = Mathf.Abs(scale.x) * (flip ? -1 : 1);
                 transform.Translate(speed * Time.deltaTime, 0, 0);
 
             }
-            if (IsChasing && Player.transform.position.x < transform.position.x)
+            if (IsChasing && Player.transform.position.x < transform.position.x && !goblin.isDead)
             {
 
                 scale.x = Mathf.Abs(scale.x) * -1 * (flip ? -1 : 1);

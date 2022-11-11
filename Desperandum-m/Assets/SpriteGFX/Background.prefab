@@ -1918,7 +1918,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2661133211266541068}
   - component: {fileID: 2661133211266541069}
-  - component: {fileID: 2661133211266541071}
   m_Layer: 6
   m_Name: 001_floor
   m_TagString: Untagged
@@ -1993,27 +1992,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &2661133211266541071
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2661133211266541066}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &2661133211317697524
 GameObject:
   m_ObjectHideFlags: 0

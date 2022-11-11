@@ -9,7 +9,7 @@ public class GoblinAttackRadius : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gMove.GetComponent<GoblinMovement>();
+       GoblinMovement gMove = GetComponent<GoblinMovement>();
     }
 
     // Update is called once per frame
