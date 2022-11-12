@@ -22,6 +22,7 @@ public class GoblinMovement : MonoBehaviour
     private Rigidbody2D rigid;
     public GoblinAI goblin;
     public bool flip;
+    public float jumpTimer = 0;
     public bool IsChasing = false;
     public bool IsAlive;
      float GoblinDamage;
@@ -37,31 +38,30 @@ public class GoblinMovement : MonoBehaviour
         IsAlive = true;
         speed = 3f;
         GoblinDamage = 10f;
+        jumpTimer = 3f;
     }
+
+
 
     private void Update()
     {
-        Vector3 scale = transform.localScale;
+        jumpTimer -= Time.deltaTime;
 
-            if (IsChasing && Player.transform.position.x > transform.position.x && !goblin.isDead)
-            {
-                scale.x = Mathf.Abs(scale.x) * (flip ? -1 : 1);
-                transform.Translate(speed * Time.deltaTime, 0, 0);
+        if(jumpTimer < 0) jumpTimer = 0;
 
-            }
-            if (IsChasing && Player.transform.position.x < transform.position.x && !goblin.isDead)
-            {
+        if(jumpTimer == 0)
+        {
+            Jump();
+            jumpTimer += 4;
 
-                scale.x = Mathf.Abs(scale.x) * -1 * (flip ? -1 : 1);
-                transform.Translate(speed * Time.deltaTime * -1, 0, 0);
-
-
-            }
-        
-        transform.localScale = scale;
-
+        }
     }
 
+    void Jump()
+    {
+        rigid.AddForce(Vector2.up * 50f);
+
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -94,10 +94,6 @@ public class GoblinMovement : MonoBehaviour
         }
 
     }
-    public void TakeDamage()
-    {
-
-    }
-
+    
 
 }
