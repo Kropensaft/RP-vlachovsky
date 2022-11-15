@@ -8,7 +8,7 @@ public class LampFuel : MonoBehaviour
     [SerializeField] GameObject Player;
     
     public Flashlight flashlight;
-    public Character player;
+    [HideInInspector] public Character player;
     public Slider FuelBar;
    
 

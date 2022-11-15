@@ -98,7 +98,7 @@ public class Character : MonoBehaviour
         currentFuel = maxFuel;
 
         minimap.enabled = false;
-        miniMap.enabled = false;
+       
 
         WalkAudio.Pause();
        
