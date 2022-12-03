@@ -40,8 +40,7 @@ public class FireballAttack : MonoBehaviour
             rotZ += 180f;
         }  
         else
-            rotZ -= 25f; // Fixuje Invertaci svìtla pøi flipu I divnou chybu pøi zmìnì z Freeform na Spotlight
-
+        
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
 
         if(!canFire)

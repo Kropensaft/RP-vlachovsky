@@ -23,6 +23,7 @@ public class tutorialMovement : MonoBehaviour
     //fuel
     public float maxFuel = 300f;
     public float currentFuel;
+    public float fuelTankCapacity = 100f;
 
 
     //health
@@ -41,7 +42,7 @@ public class tutorialMovement : MonoBehaviour
     //"Combat" variables
     public Flashlight flashlight;
     public Text ScoreText;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,18 +50,38 @@ public class tutorialMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         boxCollider2d = GetComponent<BoxCollider2D>();
+        flashlight = GetComponent<Flashlight>();
 
         currentHealth = maxHealth;
         currentFuel = maxFuel;
+        
 
-        flashlight = GetComponent<Flashlight>();
         healthBar.SetMaxHealth(maxHealth);
         fuelBar.SetMaxFuel(maxFuel);
+    }
+
+
+    void UpdateFuel()
+    {
+        if (flashlight.flashlightLoaded)
+        {
+
+            currentFuel -= 0.1f;
+            fuelBar.SetFuel(currentFuel);
+
+        }
+
+        else if (!flashlight.flashlightLoaded)
+        {
+            fuelBar.SetFuel(currentFuel);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateFuel();
+
         bool IsGrounded()
         {
             RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
@@ -111,6 +132,30 @@ public class tutorialMovement : MonoBehaviour
 
         }
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+
+
+        //Add fuel if you collide with fuel tank
+        if (collision.gameObject.name == "fuelTank")
+        {
+            Debug.Log("Restored 75 fuel");
+            fuelBar.SetFuel(currentFuel += fuelTankCapacity);
+            collision.gameObject.SetActive(false);
+
+            if (currentFuel > maxFuel)
+            {
+                currentFuel = maxFuel;
+            }
+
+        }
+
+
+
+   
+    }
+
+
 
     void FixedUpdate()
     {

@@ -25,9 +25,12 @@ public class EasterEggController : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
-
+    public GameObject projectile;
+    public Transform LHFirePoint, RHFirePoint;
+    private bool leftHand;
     public Transform orientation;
-
+    private Vector3 destination;
+    public Camera cam;
     float horizontalInput;
     float verticalInput;
 
@@ -77,8 +80,44 @@ public class EasterEggController : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        if(Input.GetMouseButton(1))
+        {
+            ShootProjectile();
+        }
+         
     }
 
+    void ShootProjectile()
+    {
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+
+
+
+        if (Physics.Raycast(ray, out hit))
+            destination = hit.point;
+        else
+            destination = ray.GetPoint(1000);
+
+        if(leftHand)
+        {
+            leftHand = false;
+            InstatiateProjectile(LHFirePoint);
+        }
+        else
+        {
+            leftHand = true;
+            InstatiateProjectile(RHFirePoint);
+        }
+
+       
+    }
+
+    void InstatiateProjectile(Transform firePoint)
+    {
+        var projectileObj = Instantiate(projectile, firePoint.position, Quaternion.identity) as GameObject;
+    }
     private void MovePlayer()
     {
         // calculate movement direction
@@ -104,6 +143,8 @@ public class EasterEggController : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
+
+  
 
     private void Jump()
     {

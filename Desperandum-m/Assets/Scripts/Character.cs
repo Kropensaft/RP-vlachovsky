@@ -18,6 +18,9 @@ public class Character : MonoBehaviour
     bool RoomKeyTwo;
     bool RoomKeyThree;
 
+    //Saving
+    public int level;
+
 
     //Sliders 
     public LampFuel fuelBar;
@@ -84,7 +87,27 @@ public class Character : MonoBehaviour
     }
 
 
+    public void SavePlayer()
+    {
+        SaveSystem.SavePlayer(this);
+    }
+    public void LoadPlayer()
+    {
+        Serialization data = SaveSystem.LoadPlayer();
 
+        
+        currentHealth = data.health;
+        currentFuel = data.fuel;
+        score = data.score;
+
+        Vector3 position;
+        position.x = data.position[0];
+        position.y = data.position[1];
+        position.z = data.position[2];
+
+        transform.position = position;
+
+    }
     protected virtual void Initialization()
     {
         rigid = transform.GetComponent<Rigidbody2D>();
@@ -98,7 +121,9 @@ public class Character : MonoBehaviour
         currentFuel = maxFuel;
 
         minimap.enabled = false;
-       
+        miniMap.enabled = false;
+
+        Cursor.visible = false;
 
         WalkAudio.Pause();
        
@@ -140,6 +165,7 @@ public class Character : MonoBehaviour
         if (currentHealth <= 0)
         {
             IsDead = true;
+            SavePlayer();
 
         }
 
@@ -183,7 +209,7 @@ public class Character : MonoBehaviour
 
         if(collision.gameObject.tag == "EasterEggCave")
         {
-            SceneManager.LoadScene("EasterEgg");
+            SceneManager.LoadScene("EALoading");
         }
         //Add health if you collide with beans
         if (collision.gameObject.name == "healingBeans")
@@ -222,6 +248,8 @@ public class Character : MonoBehaviour
             Debug.Log("Picked up first room key");
             collision.gameObject.SetActive(false);
             RoomKeyOne = true;
+            SavePlayer();
+
         }
 
         if (collision.gameObject.tag == "RoomKey2")
@@ -229,14 +257,18 @@ public class Character : MonoBehaviour
             Debug.Log("Picked up second room key");
             collision.gameObject.SetActive(false);
             RoomKeyTwo = true;
+            SavePlayer();
 
-            }
+
+        }
 
         if (collision.gameObject.tag == "RoomKey3")
         {
             Debug.Log("Picked up third room key");
             collision.gameObject.SetActive(false);
             RoomKeyThree = true;
+            SavePlayer();
+
         }
     }
 
@@ -256,9 +288,11 @@ public class Character : MonoBehaviour
         }
     }
 
+    
 
     void Update()
     {
+
 
         UpdateFuel();
         ScoreText.text = "Score: " + score;
