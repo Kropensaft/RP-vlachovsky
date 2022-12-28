@@ -19,6 +19,9 @@ TagManager:
   - tileset
   - projectile
   - EasterEggCave
+  - Fireball
+  - Boundary
+  - Arabis
   layers:
   - Default
   - TransparentFX

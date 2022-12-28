@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class Pause : MonoBehaviour
 {
     
 
     public bool IsPaused;
-   
+    public GameObject pauseImage;
 
 
     void Start()
     {
-       
+        IsPaused = false;
     }
 
     // Update is called once per frame
@@ -20,35 +21,16 @@ public class Pause : MonoBehaviour
     {
         if(IsPaused)
         {
-
-            Menu();
+            SceneManager.LoadScene("PauseMenu");
+            
         }
-        else
-        {
-           
-            Time.timeScale = 1f;    
-        }
+        
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            IsPaused = true;
+            IsPaused = !IsPaused;
         }
     }
 
-    public void Resume()
-
-    {
-        SceneManager.LoadScene("FirstLevel");
-        IsPaused = false; 
-    }
-
-    public void Menu()
-    {
-        
-            Time.timeScale = 0f;
-            SceneManager.LoadScene("PauseMenu");
-        
-
-        
-    }
+    
 }

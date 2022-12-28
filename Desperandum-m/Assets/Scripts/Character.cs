@@ -79,7 +79,8 @@ public class Character : MonoBehaviour
     //Audio
     public AudioSource WalkAudio;
     public AudioSource HW_pickup;
-  
+
+    public SaveSystem data;
 
     void Start()
     {
@@ -87,27 +88,7 @@ public class Character : MonoBehaviour
     }
 
 
-    public void SavePlayer()
-    {
-        SaveSystem.SavePlayer(this);
-    }
-    public void LoadPlayer()
-    {
-        Serialization data = SaveSystem.LoadPlayer();
-
-        
-        currentHealth = data.health;
-        currentFuel = data.fuel;
-        score = data.score;
-
-        Vector3 position;
-        position.x = data.position[0];
-        position.y = data.position[1];
-        position.z = data.position[2];
-
-        transform.position = position;
-
-    }
+  
     protected virtual void Initialization()
     {
         rigid = transform.GetComponent<Rigidbody2D>();
@@ -116,7 +97,8 @@ public class Character : MonoBehaviour
         flashlight = GetComponent<Flashlight>();
         Angel = GetComponent<WeepingAngelAI>();
         animator = GetComponent<Animator>();
-        
+        SaveSystem data = GetComponent<SaveSystem>();
+
         currentHealth = maxHealth;
         currentFuel = maxFuel;
 
@@ -145,7 +127,18 @@ public class Character : MonoBehaviour
     }
 
 
+    public void SavePlayer()
+    {
+        data.SavePlayerData();
+    }
 
+    public void LoadPlayer()
+    {
+        data.LoadPlayerData();
+
+
+
+    }
 
     void FixedUpdate()
     {
@@ -191,7 +184,10 @@ public class Character : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if(collision.gameObject.name == "firstSave")
+        {
+            SavePlayer();
+        }
 
       //Add fuel if you collide with fuel tank
         if (collision.gameObject.name == "fuelTank")

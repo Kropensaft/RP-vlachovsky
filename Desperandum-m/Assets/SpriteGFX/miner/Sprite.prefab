@@ -448,6 +448,7 @@ GameObject:
   - component: {fileID: 2380423724358164767}
   - component: {fileID: 2380423724358164764}
   - component: {fileID: 2380423724358164765}
+  - component: {fileID: -2589976405080045567}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Sprite
@@ -463,7 +464,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2380423724358164844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.430754, y: 9.558595, z: -8.438801}
+  m_LocalPosition: {x: -90.62669, y: 3.037169, z: -8.438801}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -593,7 +594,7 @@ MonoBehaviour:
   fuelBar: {fileID: 0}
   healthBar: {fileID: 0}
   maxFuel: 500
-  currentFuel: 436.19977
+  currentFuel: 498.09988
   lowHealthBorder: {fileID: 0}
   currentHealth: 100
   maxHealth: 100
@@ -615,9 +616,10 @@ MonoBehaviour:
   jumpVelocity: 6
   flashlight: {fileID: 2380423724504363580}
   ScoreText: {fileID: 0}
-  score: 10
+  score: 0
   WalkAudio: {fileID: 2380423724358164761}
   HW_pickup: {fileID: 2380423724358164764}
+  data: {fileID: -2589976405080045567}
 --- !u!114 &2380423724358164839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,6 +986,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: 2380423724358164833}
+--- !u!114 &-2589976405080045567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2380423724358164844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef7ca82bd5094c40add4b57794c4aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: 0
+  playerFuel: 0
+  playerScore: 0
+  playerPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2380423724394109526
 GameObject:
   m_ObjectHideFlags: 0

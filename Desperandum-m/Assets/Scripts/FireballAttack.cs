@@ -40,10 +40,12 @@ public class FireballAttack : MonoBehaviour
             rotZ += 180f;
         }  
         else
-        
-        transform.rotation = Quaternion.Euler(0, 0, rotZ);
+        {
+            transform.rotation = Quaternion.Euler(0, 0, rotZ);
 
-        if(!canFire)
+        }
+
+        if (!canFire)
         {
             timer += Time.deltaTime;
             if(timer > timeBetweenFiring)

@@ -422,7 +422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click  to continue...
+  m_text: Click to skip...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fea359c790097ac458de2f56f27ea22e, type: 2}
   m_sharedMaterial: {fileID: -6547958361120918328, guid: fea359c790097ac458de2f56f27ea22e, type: 2}
@@ -755,7 +755,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 433183804}
         m_TargetAssemblyTypeName: TextAnim, Assembly-CSharp
-        m_MethodName: EndCheck
+        m_MethodName: Skip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

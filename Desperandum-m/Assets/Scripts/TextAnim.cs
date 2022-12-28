@@ -12,10 +12,11 @@ public class TextAnim : MonoBehaviour
     [SerializeField] float timeBtwnWords;
 
 
+    private bool skip = false;
 
     public string[] stringArray;
 
-     int i = 0;
+    int i = 0;
 
 
 
@@ -27,10 +28,15 @@ public class TextAnim : MonoBehaviour
 
     private void Update()
     {
-        if(i == 5)
+        if (i == 5 || skip)
         {
             Invoke(nameof(LoadLevel), .6f);
         }
+    }
+
+    public void Skip()
+    {
+        skip = true;
     }
     public void EndCheck()
     {
@@ -66,7 +72,7 @@ public class TextAnim : MonoBehaviour
 
             {
                 i += 1;
-                //Invoke("EndCheck", timeBtwnWords);
+                Invoke("EndCheck", timeBtwnWords);
                 break;
             }    
 
