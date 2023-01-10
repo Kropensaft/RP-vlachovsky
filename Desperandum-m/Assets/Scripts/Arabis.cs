@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,15 @@ public class Arabis : MonoBehaviour
     public Transform firePos2;  
     public Transform firePos3;
 
+    public Vector2 direction = Vector2.right;
+
+    public Rigidbody2D rigid;
+
+    public Transform playerTransform;
+
+    public int BeamSpeed;
+
+    public float maxBallSpawnDistance;
     // Time in seconds after which the fireballs will stop spawning
     public float stopSpawningTime = 5f;
 
@@ -21,7 +31,7 @@ public class Arabis : MonoBehaviour
     public int attackDamage = 5;
 
     // The boss's attack rate
-    public float attackRate = 1.0f;
+    public float attackRate = 1f;
 
     // The time since the boss last attack
     private float timeSinceLastAttack = 0.0f;
@@ -41,31 +51,25 @@ public class Arabis : MonoBehaviour
     }
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         // Decrement the time since the last attack
         timeSinceLastAttack -= Time.deltaTime;
 
         // Check if the boss is ready to attack
-        if (timeSinceLastAttack <= 0.0f )
+        if (timeSinceLastAttack <= 0.0f)
         {
             // Attack by spawning a projectile
-            SpawnProjectile();
+            PhaseTwo();
+            PhaseOne(playerTransform.position);
             timeSinceLastAttack = attackRate;
         }
     }
-
-
     // Spawn a projectile
-    void SpawnProjectile()
-    {
-        Vector3 FirePos1 = new Vector3(firePos1.position.x, firePos1.position.y, firePos1.position.z);
-        Vector3 FirePos2 = new Vector3(firePos2.position.x, firePos2.position.y, firePos2.position.z);
-        Vector3 FirePos3 = new Vector3(firePos3.position.x, firePos3.position.y, firePos3.position.z);
-
-      //  PhaseOne();
-        PhaseTwo(FirePos3);
-        PhaseOne();
-    }
-
+   
 
     // Reduce the boss's health and check for death
     public void TakeDamage(int damage)
@@ -79,7 +83,7 @@ public class Arabis : MonoBehaviour
         }
     }
 
-    void PhaseOne()
+    void PhaseOne(Vector3 playerTransform)
     {
        
 
@@ -94,7 +98,7 @@ public class Arabis : MonoBehaviour
             if (fireballTimer < stopSpawningTime)
         {
             // Specify the number of projectiles to spawn
-            int numProjectiles = 10;
+            int numProjectiles = 15;
 
             // Calculate the angle between each projectile
             float angleBetweenProjectiles = 360f / numProjectiles;
@@ -110,6 +114,7 @@ public class Arabis : MonoBehaviour
 
                 // Instantiate the projectile at the boss's position
                 GameObject projectile = Instantiate(projectilePrefab, firePos1.position, Quaternion.identity);
+                projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, playerTransform, 5f);
 
                 // Set the projectile's starting speed
                 projectile.GetComponent<ArabisProjectile>().speed = projectileStartSpeed;
@@ -129,51 +134,17 @@ public class Arabis : MonoBehaviour
         }
         }
     // Spawn projectiles in a sinusoidal pattern at the specified position
-    void PhaseTwo(Vector3 position)
+    void PhaseTwo()
     {
-      
+        //Vector2 movement = BeamSpeed * Time.fixedDeltaTime * direction;
+        //rigid.MovePosition(rigid.position + movement);
 
-        // Specify the number of projectiles to spawn
-        int numProjectiles = 10;
 
-        // Calculate the angle between each projectile
-        float angleBetweenProjectiles = 360f / numProjectiles;
 
-        // Initialize the angle of the first projectile to 0
-        float angle = 0f;
-
-       
-            // Spawn the projectiles
-            for (int i = 0; i < numProjectiles; i++)
-            {
-            // Calculate the position of the projectile using a sin function
-            Vector3 projectilePosition = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-
-            // Convert the angle to a direction vector
-            Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.up;
-
-            // Instantiate the projectile at the specified position
-            GameObject projectile = Instantiate(projectilePrefab, position + projectilePosition, Quaternion.identity);
-
-            // Set the projectile's starting speed
-            projectile.GetComponent<ArabisProjectile>().speed = projectileStartSpeed;
-
-            // Set the projectile's acceleration rate
-            projectile.GetComponent<ArabisProjectile>().acceleration = projectileAcceleration;
-
-            // Set the projectile's direction
-            projectile.GetComponent<ArabisProjectile>().direction = direction;
-
-            // Increment the angle of the next projectile
-            angle += angleBetweenProjectiles;
-               
-            
-            
-        }
     }
 
     
-
+    
 
     // End the game
     void EndGame()

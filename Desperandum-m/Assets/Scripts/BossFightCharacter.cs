@@ -8,8 +8,11 @@ using UnityEngine.WSA;
 public class BossFightCharacter : MonoBehaviour
     {
 
-    public int arabisDamage = 5;
+    public HealthBar healthbar;
+    
+    public int arabisDamage;
     private Rigidbody2D rb;
+    private Animator animator;
     public float speed;
 
     //Dash ability 
@@ -25,11 +28,14 @@ public class BossFightCharacter : MonoBehaviour
     // Use this for initialization
     void Start()
         {
-            currentHealth = maxHealth;
+            currentHealth = maxHealth; 
             rb = GetComponent<Rigidbody2D>();
+            animator= GetComponent<Animator>();
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
 
+
+            healthbar.SetMaxHealth(maxHealth);
     }
 
         // Update is called once per frame
@@ -81,9 +87,11 @@ public class BossFightCharacter : MonoBehaviour
         if (isDashing)
         {
             dashTimer += Time.deltaTime;
+            animator.SetBool("IsDashing", true);
 
             if (dashTimer >= dashDuration)
             {
+                animator.SetBool("IsDashing", false);
                 isDashing = false;
                 dashTimer = 0f;
             }
@@ -102,9 +110,10 @@ public class BossFightCharacter : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        healthbar.SetHealth(currentHealth);
 
         if (currentHealth <= 0)
         {
