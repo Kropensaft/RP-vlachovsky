@@ -60,7 +60,7 @@ public class ButtonUI : MonoBehaviour
    public void ContinueButton()
     {
         
-        SceneManager.LoadScene("FirstLevel");
+        
         Debug.Log("Loading game from files");
         SaveSystem data = GetComponent<SaveSystem>();
         data.LoadPlayerData();

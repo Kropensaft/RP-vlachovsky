@@ -122,7 +122,7 @@ public class Character : MonoBehaviour
         RoomKeyTwo = false;
         RoomKeyThree = false;
 
-       
+        SavePlayer();
 
     }
 
