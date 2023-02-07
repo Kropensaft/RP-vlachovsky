@@ -8,7 +8,7 @@ public class Pause : MonoBehaviour
     
 
     public bool IsPaused;
-    public GameObject pauseImage;
+    
 
 
     void Start()

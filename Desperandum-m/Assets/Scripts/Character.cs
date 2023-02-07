@@ -97,7 +97,7 @@ public class Character : MonoBehaviour
         flashlight = GetComponent<Flashlight>();
         Angel = GetComponent<WeepingAngelAI>();
         animator = GetComponent<Animator>();
-        SaveSystem data = GetComponent<SaveSystem>();
+         data = GetComponent<SaveSystem>();
 
         currentHealth = maxHealth;
         currentFuel = maxFuel;

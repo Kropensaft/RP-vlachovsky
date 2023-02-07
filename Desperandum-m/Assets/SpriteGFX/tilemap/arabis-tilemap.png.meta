@@ -162,8 +162,8 @@ TextureImporter:
       name: arabis-tilemap_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 160
+        x: 144
+        y: 208
         width: 48
         height: 48
       alignment: 0
@@ -183,7 +183,7 @@ TextureImporter:
       name: arabis-tilemap_3
       rect:
         serializedVersion: 2
-        x: 48
+        x: 0
         y: 160
         width: 48
         height: 48
@@ -204,7 +204,7 @@ TextureImporter:
       name: arabis-tilemap_4
       rect:
         serializedVersion: 2
-        x: 96
+        x: 48
         y: 160
         width: 48
         height: 48
@@ -225,7 +225,7 @@ TextureImporter:
       name: arabis-tilemap_5
       rect:
         serializedVersion: 2
-        x: 144
+        x: 96
         y: 160
         width: 48
         height: 48
@@ -246,7 +246,7 @@ TextureImporter:
       name: arabis-tilemap_6
       rect:
         serializedVersion: 2
-        x: 192
+        x: 144
         y: 160
         width: 48
         height: 48
@@ -267,8 +267,8 @@ TextureImporter:
       name: arabis-tilemap_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 112
+        x: 192
+        y: 160
         width: 48
         height: 48
       alignment: 0
@@ -288,7 +288,7 @@ TextureImporter:
       name: arabis-tilemap_8
       rect:
         serializedVersion: 2
-        x: 48
+        x: 0
         y: 112
         width: 48
         height: 48
@@ -309,7 +309,7 @@ TextureImporter:
       name: arabis-tilemap_9
       rect:
         serializedVersion: 2
-        x: 96
+        x: 48
         y: 112
         width: 48
         height: 48
@@ -330,7 +330,7 @@ TextureImporter:
       name: arabis-tilemap_10
       rect:
         serializedVersion: 2
-        x: 144
+        x: 96
         y: 112
         width: 48
         height: 48
@@ -351,7 +351,7 @@ TextureImporter:
       name: arabis-tilemap_11
       rect:
         serializedVersion: 2
-        x: 192
+        x: 144
         y: 112
         width: 48
         height: 48
@@ -372,8 +372,8 @@ TextureImporter:
       name: arabis-tilemap_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 192
+        y: 112
         width: 48
         height: 48
       alignment: 0
@@ -393,7 +393,7 @@ TextureImporter:
       name: arabis-tilemap_13
       rect:
         serializedVersion: 2
-        x: 48
+        x: 0
         y: 64
         width: 48
         height: 48
@@ -414,7 +414,7 @@ TextureImporter:
       name: arabis-tilemap_14
       rect:
         serializedVersion: 2
-        x: 96
+        x: 48
         y: 64
         width: 48
         height: 48
@@ -435,7 +435,7 @@ TextureImporter:
       name: arabis-tilemap_15
       rect:
         serializedVersion: 2
-        x: 144
+        x: 96
         y: 64
         width: 48
         height: 48
@@ -456,8 +456,8 @@ TextureImporter:
       name: arabis-tilemap_16
       rect:
         serializedVersion: 2
-        x: 48
-        y: 16
+        x: 144
+        y: 64
         width: 48
         height: 48
       alignment: 0
@@ -469,6 +469,48 @@ TextureImporter:
       bones: []
       spriteID: 76c08c079b9ace547b05d87541d0bbfc
       internalID: 1269082205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arabis-tilemap_17
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1590989d6efb93045b94a59ba797293f
+      internalID: 1287740664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arabis-tilemap_18
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 16
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fe1640d267e07246a29d8595bc00aca
+      internalID: 1891837992
       vertices: []
       indices: 
       edges: []
@@ -485,6 +527,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       arabis-tilemap_10: 483791188
+      arabis-tilemap_17: 1287740664
       arabis-tilemap_0: 1197255454
       arabis-tilemap_3: -1923215706
       arabis-tilemap_9: 863366083
@@ -494,6 +537,7 @@ TextureImporter:
       arabis-tilemap_14: -331334453
       arabis-tilemap_13: 1918834542
       arabis-tilemap_15: -722337049
+      arabis-tilemap_18: 1891837992
       arabis-tilemap_6: -1799946046
       arabis-tilemap_2: 1536290181
       arabis-tilemap_12: -671395581

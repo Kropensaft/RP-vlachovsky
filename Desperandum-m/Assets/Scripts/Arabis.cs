@@ -2,15 +2,22 @@ using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Arabis : MonoBehaviour
 {
     // The boss's health
-    public int health = 1;
+    public int health = 3;
 
     public Transform firePos1;
     public Transform firePos2;  
     public Transform firePos3;
+    public KeySpamDetector KSD;
+    public GameObject QTE;
+
+    public Image life;
+    public Image life2;
+    public Image life3;
 
     public Vector2 direction = Vector2.right;
 
@@ -44,9 +51,14 @@ public class Arabis : MonoBehaviour
 
     // The acceleration rate of the projectiles
     public float projectileAcceleration = 0.1f;
+
+    //end of phase check
+   private float elapsedTime;
+   public float PhaseOneDuration;
     private void Start()
     {
-       
+       KeySpamDetector KSD = GetComponent<KeySpamDetector>();
+        QTE.SetActive(false);
 
     }
     void Update()
@@ -58,29 +70,40 @@ public class Arabis : MonoBehaviour
     {
         // Decrement the time since the last attack
         timeSinceLastAttack -= Time.deltaTime;
-
+        elapsedTime += Time.deltaTime;
         // Check if the boss is ready to attack
         if (timeSinceLastAttack <= 0.0f)
         {
             // Attack by spawning a projectile
-            PhaseTwo();
-            PhaseOne(playerTransform.position);
+           if(elapsedTime < PhaseOneDuration)
+            {
+                PhaseOne(playerTransform.position);
+            }
+           else if(elapsedTime >= PhaseOneDuration)
+            {
+                QTE.SetActive(true);
+               
+            }
+
+
+
+
             timeSinceLastAttack = attackRate;
+            
+            
+            
         }
     }
     // Spawn a projectile
    
 
     // Reduce the boss's health and check for death
-    public void TakeDamage(int damage)
+    public void TakeDamage1()
     {
-        health -= damage;
-
-        if (health <= 0)
-        {
-            // Trigger the end game condition (e.g. win screen)
-            EndGame();
-        }
+        Debug.Log("Arabis Damaged");
+        health = 2;
+        life.enabled = (false);
+       
     }
 
     void PhaseOne(Vector3 playerTransform)
@@ -130,6 +153,7 @@ public class Arabis : MonoBehaviour
 
                 
             }
+            
            
         }
         }

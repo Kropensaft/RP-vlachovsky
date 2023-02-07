@@ -8,6 +8,7 @@ using UnityEngine.Rendering;
 public class BossFightCharacter : MonoBehaviour
 {
     public HealthBar healthbar;
+    public ScreenShake screenshake;
 
     public int arabisDamage;
     private Rigidbody2D rb;
@@ -105,6 +106,7 @@ public class BossFightCharacter : MonoBehaviour
             Debug.Log("Hit hp-");
             TakeDamage(arabisDamage);
             Destroy(collision);
+            screenshake.TriggerShake();
         }
     }
 
