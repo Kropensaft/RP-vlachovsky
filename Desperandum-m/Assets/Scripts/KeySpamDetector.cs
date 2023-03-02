@@ -17,6 +17,7 @@ public class KeySpamDetector : MonoBehaviour
     private float eventDuration = 5f;
     private float currentTime = 0f;
     private float keyHoldDuration;
+    public bool QTEcompleted = false;
     public Arabis arabis;
 
     
@@ -41,10 +42,15 @@ public class KeySpamDetector : MonoBehaviour
             {
                 arabis.TakeDamage1();
                 Debug.Log("QTE Completed");
+                QTEcompleted= true;
                 
             }
 
-
+            else
+            {
+                currentTime = 0f;
+                arabis.elapsedTime = 0f;
+            }
             // deactivate QTE UI
             this.gameObject.SetActive(false);
         }
@@ -66,6 +72,10 @@ public class KeySpamDetector : MonoBehaviour
             {
                     keyHoldDuration= 0f;
                     barFill -= decreaseSpeed * Time.deltaTime;
+                if(barFill < 0)
+                {
+                    barFill = 0;
+                }
             }
 
             fillBar.value = barFill;

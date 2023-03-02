@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,7 +26,7 @@ public class BossFightCharacter : MonoBehaviour
     public bool isDashing;
     private float dashCounter;
     private float DashCooldownCounter;
-
+    public float bladeDamage;
     public float currentHealth;
     public float maxHealth = 100f;
 
@@ -87,7 +88,7 @@ public class BossFightCharacter : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         healthbar.SetHealth(currentHealth);
@@ -108,8 +109,17 @@ public class BossFightCharacter : MonoBehaviour
             Destroy(collision);
             screenshake.TriggerShake();
         }
+        
     }
-
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "blade" && !isDashing)
+        {
+            Debug.Log("Blade hit");
+            TakeDamage(bladeDamage);
+            screenshake.TriggerShake();
+        }
+    }
     private void Die()
     {
     }

@@ -14,6 +14,7 @@ public class Arabis : MonoBehaviour
     public Transform firePos3;
     public KeySpamDetector KSD;
     public GameObject QTE;
+    public GameObject BladeDance;
 
     public Image life;
     public Image life2;
@@ -53,7 +54,7 @@ public class Arabis : MonoBehaviour
     public float projectileAcceleration = 0.1f;
 
     //end of phase check
-   private float elapsedTime;
+   public float elapsedTime;
    public float PhaseOneDuration;
     private void Start()
     {
@@ -63,7 +64,11 @@ public class Arabis : MonoBehaviour
     }
     void Update()
     {
+        if(KSD.QTEcompleted) 
+        {
+            PhaseTwo();
         
+        }
     }
 
     private void FixedUpdate()
@@ -77,14 +82,15 @@ public class Arabis : MonoBehaviour
             // Attack by spawning a projectile
            if(elapsedTime < PhaseOneDuration)
             {
-                PhaseOne(playerTransform.position);
+                //PhaseOne(playerTransform.position);
             }
+
            else if(elapsedTime >= PhaseOneDuration)
             {
                 QTE.SetActive(true);
                
             }
-
+          
 
 
 
@@ -106,7 +112,7 @@ public class Arabis : MonoBehaviour
        
     }
 
-    void PhaseOne(Vector3 playerTransform)
+    public void PhaseOne(Vector3 playerTransform)
     {
        
 
@@ -160,10 +166,7 @@ public class Arabis : MonoBehaviour
     // Spawn projectiles in a sinusoidal pattern at the specified position
     void PhaseTwo()
     {
-        //Vector2 movement = BeamSpeed * Time.fixedDeltaTime * direction;
-        //rigid.MovePosition(rigid.position + movement);
-
-
+     BladeDance.SetActive(true);
 
     }
 
