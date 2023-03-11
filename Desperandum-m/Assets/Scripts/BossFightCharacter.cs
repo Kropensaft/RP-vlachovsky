@@ -10,6 +10,7 @@ public class BossFightCharacter : MonoBehaviour
 {
     public HealthBar healthbar;
     public ScreenShake screenshake;
+    public LightningAttack lightningattack;
     public Arabis arabis;
     public int arabisDamage;
     private Rigidbody2D rb;
@@ -17,9 +18,15 @@ public class BossFightCharacter : MonoBehaviour
     private Animator animator;
     public float MoveSpeed;
     private Vector2 moveInput;
-
+    public TrailRenderer _trail;
     //Dash ability
     public float dashSpeed = 6f;
+
+    //Elemental variables
+    public bool isSlowed;
+    public bool isStunned;
+    public float slowAmount;
+
 
     private float activeMoveSpeed;
     public float dashLength = .5f, dashCooldown = 1f;
@@ -43,6 +50,8 @@ public class BossFightCharacter : MonoBehaviour
         healthbar.SetMaxHealth(maxHealth);
         pause= GetComponent<Pause>();
        
+        _trail = GetComponent<TrailRenderer>();
+       
         activeMoveSpeed = MoveSpeed;
     }
 
@@ -57,8 +66,13 @@ public class BossFightCharacter : MonoBehaviour
 
         rb.velocity = moveInput * activeMoveSpeed;
 
-        
+        if(isStunned) { activeMoveSpeed = 0f; }
 
+        if(isDashing)
+        {
+           _trail.emitting = true;
+        }
+        else {_trail.emitting = false; }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -110,6 +124,11 @@ public class BossFightCharacter : MonoBehaviour
             Destroy(collision);
             screenshake.TriggerShake();
         }
+
+        if(collision.tag == "LightningBolt" && !isDashing && !arabis.QTEactive)
+        {
+            ApplyStun(lightningattack.stunDuration);
+        }
         
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -121,7 +140,52 @@ public class BossFightCharacter : MonoBehaviour
             screenshake.TriggerShake();
         }
     }
+    
     private void Die()
     {
+    }
+    public void ApplySlow(float slowAmount, float duration)
+    {
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            MoveSpeed *= slowAmount;
+            StartCoroutine(RemoveSlow(duration));
+        }
+        else
+        {
+            StopCoroutine("RemoveSlow");
+            StartCoroutine(RemoveSlow(duration));
+        }
+    }
+
+    private IEnumerator RemoveSlow(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        MoveSpeed /= slowAmount;
+        isSlowed = false;
+    }
+
+
+    public void ApplyStun(float duration)
+    {
+        if (!isStunned)
+        {
+            isStunned = true;
+            StartCoroutine(RemoveStun(duration));
+        }
+        else
+        {
+            StopCoroutine("RemoveStun");
+            StartCoroutine(RemoveStun(duration));
+        }
+        // Play sound effect or visual effect for stun
+    }
+
+    private IEnumerator RemoveStun(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        isStunned = false;
+        
     }
 }

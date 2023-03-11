@@ -23,6 +23,7 @@ TagManager:
   - Boundary
   - Arabis
   - blade
+  - LightningBolt
   layers:
   - Default
   - TransparentFX

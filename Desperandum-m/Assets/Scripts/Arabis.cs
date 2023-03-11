@@ -17,6 +17,7 @@ public class Arabis : MonoBehaviour
     public GameObject BladeDance;
     public ArabisBladeDance BladeDanceScrpt;
     public GameObject blade;
+    public LightningAttack lightningAttack;
     public Image life;
     public Image life2;
     public Image life3;
@@ -66,13 +67,15 @@ public class Arabis : MonoBehaviour
     public int QTEcompleted = 0;
     public bool QTEactive;
 
-   
+    public float lightningSpawnInterval;
+    public float time;
 
     private void Start()
     {
         Canvas canvas = GetComponent<Canvas>();
         KeySpamDetector KSD = GetComponent<KeySpamDetector>();
         ArabisBladeDance BladeDanceScrpt = GetComponent<ArabisBladeDance>();
+        LightningAttack lightningAttack = GetComponent<LightningAttack>();
         BladeDance.SetActive(false);
     }
 
@@ -96,13 +99,22 @@ public class Arabis : MonoBehaviour
         // Decrement the time since the last attack
         timeSinceLastAttack -= Time.deltaTime;
         elapsedTime += Time.deltaTime;
+        
+        time += Time.deltaTime;
         // Check if the boss is ready to attack
         if (timeSinceLastAttack <= 0.0f)
         {
             // Attack by spawning a projectile
             if (elapsedTime < PhaseOneDuration && !QTEactive)
             {
-                PhaseOne(playerTransform.position);
+                //PhaseOne(playerTransform.position);
+
+                if(time >= lightningSpawnInterval)
+                {
+                   PhaseThree();
+                   time = 0f;
+                }
+
             }
 
             timeSinceLastAttack = attackRate;
@@ -205,6 +217,12 @@ public class Arabis : MonoBehaviour
         BladeDance.SetActive(true);
     }
 
+    private void PhaseThree() 
+    {
+        lightningAttack.StartAttack();
+        lightningAttack.StartAttack();
+        lightningAttack.StartAttack();
+    }
     // End the game
     private void EndGame()
     {
