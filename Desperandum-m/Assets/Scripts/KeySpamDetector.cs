@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 
@@ -15,9 +16,8 @@ public class KeySpamDetector : MonoBehaviour
     private float decreaseSpeed = 0.2f;
     private float threshold = 0.5f;
     private float eventDuration = 5f;
-    private float currentTime = 0f;
+    public float currentTime = 0f;
     private float keyHoldDuration;
-    public bool QTEcompleted = false;
     public Arabis arabis;
 
     
@@ -38,22 +38,33 @@ public class KeySpamDetector : MonoBehaviour
 
         if (currentTime >= eventDuration)
         {
-            if (barFill > threshold)
+            if (arabis.QTEcompleted == 0 && barFill >= threshold)
             {
+                arabis.QTEactive = false;
                 arabis.TakeDamage1();
                 Debug.Log("QTE Completed");
-                QTEcompleted= true;
-                
+                             
             }
-
-            else
+            
+            if(arabis.QTEcompleted == 1 && barFill >= threshold)
             {
-                currentTime = 0f;
-                arabis.elapsedTime = 0f;
+                arabis.QTEactive = false;
+                arabis.TakeDamage2();
+                Debug.Log("Second QTE completed");
             }
+            
             // deactivate QTE UI
-            this.gameObject.SetActive(false);
+            if (arabis.QTEcompleted == 1 || arabis.QTEcompleted == 2 || arabis.QTEcompleted == 3 && !arabis.QTEactive)
+            {
+                Debug.Log("QTE disabled");
+                vignette.color = new Color(0, 0, 0, 1);
+                currentTime = 0f;
+                this.gameObject.SetActive(false);
+            }
+            
+
         }
+       
         else
         {
             if (Input.GetKey(KeyCode.F))

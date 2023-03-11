@@ -6,18 +6,28 @@ public class HomingBlade : MonoBehaviour
     public float homingDelay = 2.0f;
     public float homingSpeed = 5.0f;
 
-    private bool homingEnabled = false;
+    public bool homingEnabled = false;
     private Transform playerTransform;
 
+    public float velocityIncrement = 0.5f;
+
+    private int numCollisions = 0;
+
     private Rigidbody2D rigid;
-    
+    public LayerMask collisionMask;
+
+  
 
     void Start()
     {
         playerTransform = GetPlayerTransform();
         StartCoroutine(EnableHoming());
         rigid= GetComponent<Rigidbody2D>();
-       
+        KeySpamDetector KSD = GetComponent<KeySpamDetector>();
+         
+
+
+
     }
 
     Transform GetPlayerTransform()
@@ -46,23 +56,34 @@ public class HomingBlade : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, homingSpeed * Time.deltaTime);
         }
+
+        
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    void FixedUpdate()
     {
+        // Get the velocity of the circle
+        Vector2 velocity = rigid.velocity;
 
-        if (collision.gameObject.CompareTag("Boundary"))
+        // Cast a ray in the direction of the velocity
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, velocity, velocity.magnitude * Time.fixedDeltaTime, collisionMask);
+
+        // If the ray hits a wall, reflect the velocity and add velocity increment
+        if (hit.collider != null)
         {
-            // Get the normal vector of the collision
-            Vector2 normal = collision.contacts[0].normal;
+            // Get the normal of the collision
+            Vector2 normal = hit.normal;
 
-            // Calculate the reflection vector
-            Vector2 reflection = Vector2.Reflect(rigid.velocity, normal);
+            // Calculate the angle of reflection
+            Vector2 reflection = Vector2.Reflect(velocity, normal);
 
-            // Apply a force to the circle in the direction of the reflection vector
-            rigid.velocity = reflection;
+            // Apply the angle of reflection to the Rigidbody 2D
+            rigid.velocity = reflection.normalized * (velocity.magnitude + velocityIncrement);
+
+            // Increment the number of collisions
+            numCollisions++;
         }
-
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -77,4 +98,7 @@ public class HomingBlade : MonoBehaviour
         }
       
     }
+
+
+
 }

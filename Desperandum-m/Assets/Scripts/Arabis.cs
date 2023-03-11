@@ -10,12 +10,13 @@ public class Arabis : MonoBehaviour
     public int health = 3;
 
     public Transform firePos1;
-    public Transform firePos2;  
+    public Transform firePos2;
     public Transform firePos3;
     public KeySpamDetector KSD;
     public GameObject QTE;
     public GameObject BladeDance;
-
+    public ArabisBladeDance BladeDanceScrpt;
+    public GameObject blade;
     public Image life;
     public Image life2;
     public Image life3;
@@ -29,6 +30,7 @@ public class Arabis : MonoBehaviour
     public int BeamSpeed;
 
     public float maxBallSpawnDistance;
+
     // Time in seconds after which the fireballs will stop spawning
     public float stopSpawningTime = 5f;
 
@@ -46,6 +48,7 @@ public class Arabis : MonoBehaviour
 
     // The prefab for the projectile to spawn
     public GameObject projectilePrefab;
+    //public Canvas canvas;
 
     // The starting speed of the projectiles
     public float projectileStartSpeed = 1.0f;
@@ -54,20 +57,37 @@ public class Arabis : MonoBehaviour
     public float projectileAcceleration = 0.1f;
 
     //end of phase check
-   public float elapsedTime;
-   public float PhaseOneDuration;
+    public float elapsedTime;
+
+    public float PhaseOneDuration;
+    public float PhaseTwoDuration;
+    public float Phase1a2diff = 15f;
+
+    public int QTEcompleted = 0;
+    public bool QTEactive;
+
+   
+
     private void Start()
     {
-       KeySpamDetector KSD = GetComponent<KeySpamDetector>();
-        QTE.SetActive(false);
-
+        Canvas canvas = GetComponent<Canvas>();
+        KeySpamDetector KSD = GetComponent<KeySpamDetector>();
+        ArabisBladeDance BladeDanceScrpt = GetComponent<ArabisBladeDance>();
+        BladeDance.SetActive(false);
     }
-    void Update()
+
+    private void Update()
     {
-        if(KSD.QTEcompleted) 
+        if (QTEcompleted == 1 && elapsedTime >= PhaseOneDuration + Phase1a2diff && elapsedTime <= PhaseOneDuration + Phase1a2diff + PhaseTwoDuration)
         {
             PhaseTwo();
-        
+            
+        }
+        if(QTEcompleted == 2 && !QTEactive)
+        {
+            BladeDanceScrpt.DestroyBlades();
+            BladeDance.SetActive(false);
+            
         }
     }
 
@@ -80,42 +100,62 @@ public class Arabis : MonoBehaviour
         if (timeSinceLastAttack <= 0.0f)
         {
             // Attack by spawning a projectile
-           if(elapsedTime < PhaseOneDuration)
+            if (elapsedTime < PhaseOneDuration && !QTEactive)
             {
-                //PhaseOne(playerTransform.position);
+                PhaseOne(playerTransform.position);
             }
-
-           else if(elapsedTime >= PhaseOneDuration)
-            {
-                QTE.SetActive(true);
-               
-            }
-          
-
-
 
             timeSinceLastAttack = attackRate;
-            
-            
+        }
+
+        if (elapsedTime >= PhaseOneDuration && QTEcompleted == 0)
+        {
+            //1st phase QTE
+            QTEactive = true;
+            QTE.SetActive(true);
             
         }
+
+          if (elapsedTime >= PhaseOneDuration + PhaseTwoDuration + Phase1a2diff && QTEcompleted == 1)
+        {
+           
+            //2nd phase QTE
+           
+            QTEactive = true;
+            QTE.SetActive(true);
+
+
+            Debug.Log("second Phase QTE started");
+        }
     }
+
     // Spawn a projectile
-   
 
     // Reduce the boss's health and check for death
     public void TakeDamage1()
     {
         Debug.Log("Arabis Damaged");
+        QTEcompleted = 1;
         health = 2;
-        life.enabled = (false);
+        KSD.fillBar.value = 0f;
+        KSD.barFill = KSD.fillBar.value;
        
+        life.enabled = (false);
+    }
+
+    public void TakeDamage2()
+    {
+        Debug.Log("Arabis Damaged second time");
+        QTEcompleted = 2;
+        health = 1;
+        KSD.fillBar.value = 0f;
+        KSD.barFill = KSD.fillBar.value;
+        
+        life2.enabled = (false);
     }
 
     public void PhaseOne(Vector3 playerTransform)
     {
-       
-
         // Check if the time since the last attack is greater than or equal to the attack rate
         if (timeSinceLastAttack >= attackRate)
         {
@@ -123,8 +163,7 @@ public class Arabis : MonoBehaviour
             timeSinceLastAttack = 0f;
         }
 
-        
-            if (fireballTimer < stopSpawningTime)
+        if (fireballTimer < stopSpawningTime)
         {
             // Specify the number of projectiles to spawn
             int numProjectiles = 15;
@@ -156,27 +195,19 @@ public class Arabis : MonoBehaviour
 
                 // Increment the angle of the next projectile
                 angle += angleBetweenProjectiles;
-
-                
             }
-            
-           
         }
-        }
-    // Spawn projectiles in a sinusoidal pattern at the specified position
-    void PhaseTwo()
-    {
-     BladeDance.SetActive(true);
-
     }
 
-    
-    
+    // Spawn projectiles in a sinusoidal pattern at the specified position
+    private void PhaseTwo()
+    {
+        BladeDance.SetActive(true);
+    }
 
     // End the game
-    void EndGame()
+    private void EndGame()
     {
         // Do something to end the game (e.g. load a win screen)
     }
 }
-    

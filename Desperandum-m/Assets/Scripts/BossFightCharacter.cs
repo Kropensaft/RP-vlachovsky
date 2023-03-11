@@ -10,7 +10,7 @@ public class BossFightCharacter : MonoBehaviour
 {
     public HealthBar healthbar;
     public ScreenShake screenshake;
-
+    public Arabis arabis;
     public int arabisDamage;
     private Rigidbody2D rb;
     private Pause pause;
@@ -36,6 +36,7 @@ public class BossFightCharacter : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        Arabis arabis = GetComponent<Arabis>();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
 
@@ -102,7 +103,7 @@ public class BossFightCharacter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Fireball" && !isDashing)
+        if (collision.tag == "Fireball" && !isDashing && !arabis.QTEactive)
         {
             Debug.Log("Hit hp-");
             TakeDamage(arabisDamage);
@@ -113,7 +114,7 @@ public class BossFightCharacter : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "blade" && !isDashing)
+        if (collision.tag == "blade" && !isDashing && !arabis.QTEactive)
         {
             Debug.Log("Blade hit");
             TakeDamage(bladeDamage);

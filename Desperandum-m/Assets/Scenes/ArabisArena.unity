@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 28654734}
   - component: {fileID: 28654737}
   - component: {fileID: 28654738}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (4)
   m_TagString: Boundary
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 3
 --- !u!1 &36539378
 GameObject:
@@ -418,6 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthbar: {fileID: 794120049}
   screenshake: {fileID: 36539389}
+  arabis: {fileID: 1706416738}
   arabisDamage: 5
   MoveSpeed: 4
   dashSpeed: 7
@@ -1394,7 +1395,7 @@ GameObject:
   - component: {fileID: 617378134}
   - component: {fileID: 617378133}
   - component: {fileID: 617378136}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (3)
   m_TagString: Boundary
   m_Icon: {fileID: 0}
@@ -1513,7 +1514,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 3
 --- !u!1 &630501894
 GameObject:
@@ -2715,7 +2716,7 @@ MonoBehaviour:
   KeyIcon: {fileID: 1532836093}
   vignette: {fileID: 1242127678}
   barFill: 0
-  QTEcompleted: 0
+  currentTime: 0
   arabis: {fileID: 1706416738}
 --- !u!1 &1242127676
 GameObject:
@@ -10303,7 +10304,7 @@ GameObject:
   - component: {fileID: 1670546765}
   - component: {fileID: 1670546768}
   - component: {fileID: 1670546769}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (2)
   m_TagString: Boundary
   m_Icon: {fileID: 0}
@@ -10448,7 +10449,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 3
 --- !u!1 &1706416732
 GameObject:
@@ -10627,6 +10628,8 @@ MonoBehaviour:
   KSD: {fileID: 1241682297}
   QTE: {fileID: 1241682295}
   BladeDance: {fileID: 2127057835}
+  BladeDanceScrpt: {fileID: 2127057838}
+  blade: {fileID: 5575096034872998298, guid: 99c840afc2eef4f409a46ea3f7633210, type: 3}
   life: {fileID: 677024411}
   life2: {fileID: 1081239000}
   life3: {fileID: 817231597}
@@ -10642,7 +10645,11 @@ MonoBehaviour:
   projectileStartSpeed: 1
   projectileAcceleration: 0.1
   elapsedTime: 0
-  PhaseOneDuration: 60
+  PhaseOneDuration: 5
+  PhaseTwoDuration: 5
+  Phase1a2diff: 5
+  QTEcompleted: 0
+  QTEactive: 0
 --- !u!1 &1717412761
 GameObject:
   m_ObjectHideFlags: 0
@@ -10656,7 +10663,7 @@ GameObject:
   - component: {fileID: 1717412762}
   - component: {fileID: 1717412765}
   - component: {fileID: 1717412766}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Boundary
   m_Icon: {fileID: 0}
@@ -10801,7 +10808,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 3
 --- !u!1 &1741235691
 GameObject:
@@ -10959,7 +10966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 32
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -11255,7 +11262,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127057835}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11277,6 +11284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladePrefab: {fileID: 5575096034872998298, guid: 99c840afc2eef4f409a46ea3f7633210, type: 3}
+  spawnedBlades: []
   spawnLocations:
   - {fileID: 831346442}
   - {fileID: 1563166421}
