@@ -18,6 +18,7 @@ public class Arabis : MonoBehaviour
     public ArabisBladeDance BladeDanceScrpt;
     public GameObject blade;
     public LightningAttack lightningAttack;
+    public ColdAttack coldAttack;
     public Image life;
     public Image life2;
     public Image life3;
@@ -76,6 +77,7 @@ public class Arabis : MonoBehaviour
         KeySpamDetector KSD = GetComponent<KeySpamDetector>();
         ArabisBladeDance BladeDanceScrpt = GetComponent<ArabisBladeDance>();
         LightningAttack lightningAttack = GetComponent<LightningAttack>();
+        ColdAttack coldAttack = GetComponent<ColdAttack>();
         BladeDance.SetActive(false);
     }
 
@@ -107,7 +109,7 @@ public class Arabis : MonoBehaviour
             // Attack by spawning a projectile
             if (elapsedTime < PhaseOneDuration && !QTEactive)
             {
-                //PhaseOne(playerTransform.position);
+                PhaseOne(playerTransform.position);
 
                 if(time >= lightningSpawnInterval)
                 {
@@ -222,6 +224,9 @@ public class Arabis : MonoBehaviour
         lightningAttack.StartAttack();
         lightningAttack.StartAttack();
         lightningAttack.StartAttack();
+        coldAttack.StartAttack();
+        coldAttack.StartAttack();
+        coldAttack.StartAttack();
     }
     // End the game
     private void EndGame()

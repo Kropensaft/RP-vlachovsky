@@ -5,11 +5,10 @@ using UnityEngine;
 public class ColdAttack : MonoBehaviour
 {
     public GameObject coldAttackPrefab;
-    public GameObject coldPuddlePrefab;
+   
     public float duration = 5f;
     public bool IsActive { get; private set; }
-    public float slowDuration = 3f;
-    public float slowAmount = 0.5f;
+    
 
     private const float arenaWidth = 35.6f;
     private const float arenaHeight = 13.74f;
@@ -39,9 +38,9 @@ public class ColdAttack : MonoBehaviour
         IsActive = true;
         timer = 0f;
 
-        Vector2 randomPos = new Vector2(
+        Vector3 randomPos = new Vector3(
             Random.Range(-arenaWidth / 2, arenaWidth / 2),
-            Random.Range(-arenaHeight / 2, arenaHeight / 2));
+            Random.Range(-arenaHeight / 2, arenaHeight / 2), -2f);
 
 
         Instantiate(coldAttackPrefab, randomPos, Quaternion.identity);
@@ -54,12 +53,5 @@ public class ColdAttack : MonoBehaviour
         timer = 0f;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (IsActive && other.gameObject.tag == "Player")
-        {
-            BossFightCharacter player = other.gameObject.GetComponent<BossFightCharacter>();
-            player.ApplySlow(slowAmount, slowDuration);
-        }
-    }
+    
 }

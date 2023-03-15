@@ -24,6 +24,7 @@ TagManager:
   - Arabis
   - blade
   - LightningBolt
+  - Snowfall
   layers:
   - Default
   - TransparentFX
