@@ -4,7 +4,7 @@ using UnityEngine;
 public class HomingBlade : MonoBehaviour
 {
     public float homingDelay = 2.0f;
-    public float homingSpeed = 5.0f;
+    public float homingSpeed = 4.0f;
 
     public bool homingEnabled = false;
     private Transform playerTransform;
@@ -12,7 +12,7 @@ public class HomingBlade : MonoBehaviour
     public float velocityIncrement = 0.5f;
 
     private int numCollisions = 0;
-
+    public bool isRunning = false;
     private Rigidbody2D rigid;
     public LayerMask collisionMask;
 
@@ -21,10 +21,10 @@ public class HomingBlade : MonoBehaviour
     void Start()
     {
         playerTransform = GetPlayerTransform();
-        StartCoroutine(EnableHoming());
         rigid= GetComponent<Rigidbody2D>();
         KeySpamDetector KSD = GetComponent<KeySpamDetector>();
-         
+
+        StartHomingCoroutine();
 
 
 
@@ -48,6 +48,8 @@ public class HomingBlade : MonoBehaviour
     {
         yield return new WaitForSeconds(homingDelay);
         homingEnabled = true;
+        print("Started Homing");
+         isRunning = true;
     }
 
     void Update()
@@ -59,6 +61,17 @@ public class HomingBlade : MonoBehaviour
 
         
     }
+    public void StartHomingCoroutine()
+    {
+        if(!isRunning)
+        StartCoroutine(EnableHoming());
+        else
+        {
+            StopCoroutine(EnableHoming());
+            StartCoroutine(EnableHoming());    
+        }
+    }
+
     void FixedUpdate()
     {
         // Get the velocity of the circle

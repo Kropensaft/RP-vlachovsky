@@ -32,10 +32,10 @@ public class BossFightCharacter : MonoBehaviour
 
     public Image stunVignette;
     public GameObject stunnedText;
-    
+
 
     //Dash Slider variables
-  
+    public Vector3 lastPos;
 
     private float activeMoveSpeed;
     public float dashLength = .5f, dashCooldown;
@@ -64,11 +64,24 @@ public class BossFightCharacter : MonoBehaviour
         stunVignette.color = color;
         stunnedText.SetActive(false);
         activeMoveSpeed = MoveSpeed;
+
     }
 
-    // Update is called once per frame
-    private void Update()
+    public static BossFightCharacter Instance;
+
+    private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+        // Update is called once per frame
+        private void Update()
+    {
+        lastPos = new Vector3(transform.position.x, transform.position.y, -2);
+
         //Move using wsad
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");

@@ -431,6 +431,7 @@ MonoBehaviour:
   slowAmount: 0.6
   stunVignette: {fileID: 1844740563}
   stunnedText: {fileID: 1655439302}
+  lastPos: {x: 0, y: 0, z: 0}
   dashLength: 0.5
   dashCooldown: 1
   isDashing: 0
@@ -11249,13 +11250,17 @@ MonoBehaviour:
   projectileStartSpeed: 1
   projectileAcceleration: 0.1
   elapsedTime: 0
-  PhaseOneDuration: 60
-  PhaseTwoDuration: 60
-  Phase1a2diff: 10
+  finalPhaseTimer: 0
+  PhaseOneDuration: 5
+  PhaseTwoDuration: 5
+  Phase1a2diff: 5
+  finalPhaseBladeSpawn: 15
   QTEcompleted: 0
   QTEactive: 0
+  finalTime: 0
   lightningSpawnInterval: 5
   time: 0
+  finalPhaseFlag: 0
 --- !u!114 &1706416739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12010,4 +12015,6 @@ MonoBehaviour:
   - {fileID: 117601193}
   homingDelay: 2
   bladeDuration: 20
-  bladeStartDelay: 5
+  bladeStartDelay: 2.5
+  arabis: {fileID: 1706416738}
+  isSpawningBlades: 0

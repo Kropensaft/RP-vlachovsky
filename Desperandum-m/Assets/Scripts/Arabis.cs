@@ -2,6 +2,7 @@ using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class Arabis : MonoBehaviour
@@ -16,6 +17,7 @@ public class Arabis : MonoBehaviour
     public GameObject QTE;
     public GameObject BladeDance;
     public ArabisBladeDance BladeDanceScrpt;
+   
     public GameObject blade;
     public LightningAttack lightningAttack;
     public ColdAttack coldAttack;
@@ -50,6 +52,7 @@ public class Arabis : MonoBehaviour
 
     // The prefab for the projectile to spawn
     public GameObject projectilePrefab;
+    
     //public Canvas canvas;
 
     // The starting speed of the projectiles
@@ -60,17 +63,18 @@ public class Arabis : MonoBehaviour
 
     //end of phase check
     public float elapsedTime;
-
+    public float finalPhaseTimer;
     public float PhaseOneDuration;
     public float PhaseTwoDuration;
     public float Phase1a2diff = 15f;
-
+    public float finalPhaseBladeSpawn;
     public int QTEcompleted = 0;
     public bool QTEactive;
-
+    public float finalTime;
     public float lightningSpawnInterval;
     public float time;
 
+    public bool finalPhaseFlag;
     private void Start()
     {
         Canvas canvas = GetComponent<Canvas>();
@@ -78,11 +82,15 @@ public class Arabis : MonoBehaviour
         ArabisBladeDance BladeDanceScrpt = GetComponent<ArabisBladeDance>();
         LightningAttack lightningAttack = GetComponent<LightningAttack>();
         ColdAttack coldAttack = GetComponent<ColdAttack>();
+        
         BladeDance.SetActive(false);
     }
 
     private void Update()
     {
+        finalTime += Time.deltaTime;
+        timeSinceLastAttack -= Time.deltaTime;
+
         if (QTEcompleted == 1 && elapsedTime >= PhaseOneDuration + Phase1a2diff && elapsedTime <= PhaseOneDuration + Phase1a2diff + PhaseTwoDuration)
         {
             PhaseTwo();
@@ -90,10 +98,49 @@ public class Arabis : MonoBehaviour
         }
         if(QTEcompleted == 2 && !QTEactive)
         {
-            BladeDanceScrpt.DestroyBlades();
-            BladeDance.SetActive(false);
+            if(!finalPhaseFlag)
+            {
+                BladeDanceScrpt.DestroyBlades();
+                BladeDance.SetActive(false);
+            }
             
+            finalPhaseTimer += Time.deltaTime;
+           
+            if (finalPhaseTimer < finalPhaseBladeSpawn)
+            {
+                if (timeSinceLastAttack <= 0.0f)
+                {
+                    PhaseOne(firePos1.position);
+                    PhaseOne(firePos2.position);
+                    PhaseOne(firePos3.position);
+
+
+                    timeSinceLastAttack = attackRate;
+                }
+                if (time >= lightningSpawnInterval)
+                {
+                    PhaseThree();
+
+                    time = 0f;
+                }
+            }
+            if (finalPhaseTimer > finalPhaseBladeSpawn)
+            {
+
+                finalPhaseFlag = true;
+                PhaseTwo();
+                
+                
+                
+
+            }
         }
+        
+        
+
+          
+        
+        
     }
 
     private void FixedUpdate()
@@ -111,9 +158,11 @@ public class Arabis : MonoBehaviour
             {
                 PhaseOne(playerTransform.position);
 
+
                 if(time >= lightningSpawnInterval)
                 {
                    PhaseThree();
+                    
                    time = 0f;
                 }
 
@@ -228,7 +277,13 @@ public class Arabis : MonoBehaviour
         coldAttack.StartAttack();
         coldAttack.StartAttack();
     }
+
+    void FinalPhase()
+    {
+   
+    }
     // End the game
+    
     private void EndGame()
     {
         // Do something to end the game (e.g. load a win screen)
