@@ -23,6 +23,8 @@ public class BossFightCharacter : MonoBehaviour
     //Dash ability
     public float dashSpeed = 6f;
 
+    public AudioSource audSource;
+    public AudioClip hurtAudio;
     //Elemental variables
     public bool isSlowed;
     public bool isStunned;
@@ -55,7 +57,7 @@ public class BossFightCharacter : MonoBehaviour
         Arabis arabis = GetComponent<Arabis>();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
-        
+        audSource = GetComponent<AudioSource>();
         healthbar.SetMaxHealth(maxHealth);
         pause= GetComponent<Pause>();
        
@@ -147,6 +149,7 @@ public class BossFightCharacter : MonoBehaviour
     {
         currentHealth -= damage;
         healthbar.SetHealth(currentHealth);
+        audSource.PlayOneShot(hurtAudio);
 
         if (currentHealth <= 0)
         {

@@ -52,7 +52,7 @@ public class Arabis : MonoBehaviour
 
     // The prefab for the projectile to spawn
     public GameObject projectilePrefab;
-    
+    public DialogueSystem dialogueSystem;
     //public Canvas canvas;
 
     // The starting speed of the projectiles
@@ -82,8 +82,13 @@ public class Arabis : MonoBehaviour
         ArabisBladeDance BladeDanceScrpt = GetComponent<ArabisBladeDance>();
         LightningAttack lightningAttack = GetComponent<LightningAttack>();
         ColdAttack coldAttack = GetComponent<ColdAttack>();
-        
+        DialogueSystem dialogueSystem = GetComponent<DialogueSystem>();
+
         BladeDance.SetActive(false);
+        dialogueSystem.StartDialogue();
+        
+
+
     }
 
     private void Update()
@@ -151,10 +156,10 @@ public class Arabis : MonoBehaviour
         
         time += Time.deltaTime;
         // Check if the boss is ready to attack
-        if (timeSinceLastAttack <= 0.0f)
+        if (timeSinceLastAttack <= 0.0f )
         {
             // Attack by spawning a projectile
-            if (elapsedTime < PhaseOneDuration && !QTEactive)
+            if (elapsedTime < PhaseOneDuration && !QTEactive && elapsedTime > 15f)
             {
                 PhaseOne(playerTransform.position);
 
