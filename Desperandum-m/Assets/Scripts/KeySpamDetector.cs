@@ -52,7 +52,12 @@ public class KeySpamDetector : MonoBehaviour
                 arabis.TakeDamage2();
                 Debug.Log("Second QTE completed");
             }
-            
+            if (arabis.QTEcompleted == 2 && barFill >= threshold)
+            {
+                arabis.QTEactive = false;
+                arabis.TakeDamage3();
+                Debug.Log("Final QTE completed");
+            }
             // deactivate QTE UI
             if (arabis.QTEcompleted == 1 || arabis.QTEcompleted == 2 || arabis.QTEcompleted == 3 && !arabis.QTEactive)
             {

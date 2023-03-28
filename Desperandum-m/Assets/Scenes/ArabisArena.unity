@@ -981,6 +981,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 82639596}
+  - component: {fileID: 82639598}
+  - component: {fileID: 82639597}
   m_Layer: 0
   m_Name: DialogueBox
   m_TagString: Untagged
@@ -1005,6 +1007,78 @@ Transform:
   m_Father: {fileID: 398691562}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &82639597
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82639595}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!95 &82639598
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82639595}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7cb8fa60fadd040479e68d22c443468e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &117601192
 GameObject:
   m_ObjectHideFlags: 0
@@ -11431,7 +11505,6 @@ GameObject:
   - component: {fileID: 1706416738}
   - component: {fileID: 1706416739}
   - component: {fileID: 1706416740}
-  - component: {fileID: 1706416741}
   m_Layer: 0
   m_Name: Arabis
   m_TagString: Arabis
@@ -11612,13 +11685,12 @@ MonoBehaviour:
   attackDamage: 10
   attackRate: 1.6
   projectilePrefab: {fileID: 131833926444803748, guid: b9cf8dc479d7d0748840687c54b900cb, type: 3}
-  dialogueSystem: {fileID: 1706416741}
   projectileStartSpeed: 1
   projectileAcceleration: 0.1
   elapsedTime: 0
   finalPhaseTimer: 0
-  PhaseOneDuration: 60
-  PhaseTwoDuration: 60
+  PhaseOneDuration: 10
+  PhaseTwoDuration: 10
   Phase1a2diff: 15
   finalPhaseBladeSpawn: 30
   QTEcompleted: 0
@@ -11626,6 +11698,9 @@ MonoBehaviour:
   finalTime: 0
   lightningSpawnInterval: 6
   time: 0
+  _1stPhaseDialogueTime: 10
+  finalPhaseTimeABlades: 50
+  animator: {fileID: 1706416735}
   finalPhaseFlag: 0
 --- !u!114 &1706416739
 MonoBehaviour:
@@ -11660,27 +11735,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coldAttackPrefab: {fileID: 8353852024866557097, guid: 298c861b1b8283c40b68ca4f366918e1, type: 3}
   duration: 5
---- !u!114 &1706416741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706416732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbbafaf4be990b64b981303d16aaf3d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueBox: {fileID: 82639595}
-  dialogueText: {fileID: 1735511757}
-  backgroundOverlay: {fileID: 264048744}
-  phase1DialogueLines:
-  - Hello there, Im glad you made it this far.
-  - Unfortunately for you, you wont get past me.
-  phase2DialogueLines:
-  - Test
-  phase3DialogueLines: []
 --- !u!1 &1717412761
 GameObject:
   m_ObjectHideFlags: 0

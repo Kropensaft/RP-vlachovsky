@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class Arabis : MonoBehaviour
 {
     // The boss's health
     public int health = 3;
-
+    private string creditsScene = "CreditsScene";
     public Transform firePos1;
     public Transform firePos2;
     public Transform firePos3;
@@ -52,7 +52,7 @@ public class Arabis : MonoBehaviour
 
     // The prefab for the projectile to spawn
     public GameObject projectilePrefab;
-    public DialogueSystem dialogueSystem;
+    //public DialogueSystem dialogueSystem;
     //public Canvas canvas;
 
     // The starting speed of the projectiles
@@ -73,7 +73,9 @@ public class Arabis : MonoBehaviour
     public float finalTime;
     public float lightningSpawnInterval;
     public float time;
-
+    public float _1stPhaseDialogueTime = 0f;
+    public float finalPhaseTimeABlades;
+    public Animator animator;
     public bool finalPhaseFlag;
     private void Start()
     {
@@ -82,10 +84,11 @@ public class Arabis : MonoBehaviour
         ArabisBladeDance BladeDanceScrpt = GetComponent<ArabisBladeDance>();
         LightningAttack lightningAttack = GetComponent<LightningAttack>();
         ColdAttack coldAttack = GetComponent<ColdAttack>();
-        DialogueSystem dialogueSystem = GetComponent<DialogueSystem>();
+        Animator animator = GetComponent<Animator>();
+        //DialogueSystem dialogueSystem = GetComponent<DialogueSystem>();
 
         BladeDance.SetActive(false);
-        dialogueSystem.StartDialogue();
+        //dialogueSystem.StartDialogue(0);
         
 
 
@@ -95,11 +98,20 @@ public class Arabis : MonoBehaviour
     {
         finalTime += Time.deltaTime;
         timeSinceLastAttack -= Time.deltaTime;
+        //if(dialogueSystem.dialogueEnded)
+        //{
+        //    _1stPhaseDialogueTime = 0f;
+        //}
 
-        if (QTEcompleted == 1 && elapsedTime >= PhaseOneDuration + Phase1a2diff && elapsedTime <= PhaseOneDuration + Phase1a2diff + PhaseTwoDuration)
+        if (QTEcompleted == 1 && elapsedTime >= PhaseOneDuration + 5 && elapsedTime <= PhaseOneDuration + Phase1a2diff + PhaseTwoDuration)
         {
-            PhaseTwo();
-            
+           // dialogueSystem.StartDialogue(1);
+
+            if(elapsedTime >= PhaseOneDuration + Phase1a2diff)
+            {
+                PhaseTwo();
+            }
+
         }
         if(QTEcompleted == 2 && !QTEactive)
         {
@@ -111,8 +123,10 @@ public class Arabis : MonoBehaviour
             
             finalPhaseTimer += Time.deltaTime;
            
-            if (finalPhaseTimer < finalPhaseBladeSpawn)
+            if (finalPhaseTimer +10 < finalPhaseBladeSpawn )
             {
+                
+
                 if (timeSinceLastAttack <= 0.0f)
                 {
                     PhaseOne(firePos1.position);
@@ -134,7 +148,13 @@ public class Arabis : MonoBehaviour
 
                 finalPhaseFlag = true;
                 PhaseTwo();
-                
+                if(finalPhaseTimer >= finalPhaseTimeABlades)
+                {
+                    BladeDanceScrpt.DestroyBlades();
+                    BladeDance.SetActive(false);
+                    QTE.SetActive(true);
+                    QTEactive = true;
+                }
                 
                 
 
@@ -159,7 +179,7 @@ public class Arabis : MonoBehaviour
         if (timeSinceLastAttack <= 0.0f )
         {
             // Attack by spawning a projectile
-            if (elapsedTime < PhaseOneDuration && !QTEactive && elapsedTime > 15f)
+            if (elapsedTime < PhaseOneDuration && !QTEactive)
             {
                 PhaseOne(playerTransform.position);
 
@@ -195,6 +215,16 @@ public class Arabis : MonoBehaviour
 
             Debug.Log("second Phase QTE started");
         }
+        if (elapsedTime >= PhaseOneDuration + PhaseTwoDuration + Phase1a2diff + finalPhaseTimeABlades && QTEcompleted == 2)
+        {
+
+            //2nd phase QTE
+
+
+
+
+            Debug.Log("third Phase QTE started");
+        }
     }
 
     // Spawn a projectile
@@ -220,6 +250,16 @@ public class Arabis : MonoBehaviour
         KSD.barFill = KSD.fillBar.value;
         
         life2.enabled = (false);
+    }
+    public void TakeDamage3() 
+    {
+        QTEcompleted = 3;
+        health = 0;
+        KSD.fillBar.value = 0f;
+        KSD.barFill = KSD.fillBar.value;
+
+        life3.enabled = (false);
+        EndGame();
     }
 
     public void PhaseOne(Vector3 playerTransform)
@@ -283,14 +323,13 @@ public class Arabis : MonoBehaviour
         coldAttack.StartAttack();
     }
 
-    void FinalPhase()
-    {
    
-    }
     // End the game
     
     private void EndGame()
     {
-        // Do something to end the game (e.g. load a win screen)
+        animator.SetBool("GameEnded", true);
+
+        Invoke("SceneManager.LoadScene(creditsScene)", 5f);
     }
 }
