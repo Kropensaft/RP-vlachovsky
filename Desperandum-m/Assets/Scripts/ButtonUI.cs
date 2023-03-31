@@ -40,8 +40,8 @@ public class ButtonUI : MonoBehaviour
     public void LoadPlayer()
     {
         //SceneManager.LoadScene("FirstLevel");
-         SaveSystem saveSystem = new SaveSystem();
-         saveSystem.LoadPlayerData();
+        // SaveSystem saveSystem = new SaveSystem();
+        // saveSystem.LoadPlayerData();
       
 
     }
@@ -62,9 +62,9 @@ public class ButtonUI : MonoBehaviour
         
         
         Debug.Log("Loading game from files");
-        SaveSystem data = GetComponent<SaveSystem>();
-        data.LoadPlayerData();
-        data.LoadLevelScene();
+       // SaveSystem data = GetComponent<SaveSystem>();
+       // data.LoadPlayerData();
+        //data.LoadLevelScene();
 
     }
    

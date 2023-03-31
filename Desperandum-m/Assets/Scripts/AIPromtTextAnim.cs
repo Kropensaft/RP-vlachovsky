@@ -17,13 +17,13 @@ public class AIPromtTextAnim : MonoBehaviour
 
     int i = 0;
 
-    SaveSystem data;
+    //SaveSystem data;
 
     // Start is called before the first frame update
     void Start()
     {
         EndCheck();
-        data = GetComponent<SaveSystem>();
+       // data = GetComponent<SaveSystem>();
     }
 
     private void Update()
@@ -38,7 +38,7 @@ public class AIPromtTextAnim : MonoBehaviour
 
             _textMeshPro.text = stringArray[i];
             StartCoroutine(TextVisible());
-            data.LoadPlayerData();
+            //data.LoadPlayerData();
         }
 
 

@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: -2883212798474981590}
   m_Layer: 0
   m_Name: healingBeans
-  m_TagString: Untagged
+  m_TagString: healingBeans
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

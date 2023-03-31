@@ -10,13 +10,12 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     //Pickups 
-    [SerializeField] GameObject beans;
-    [SerializeField] GameObject fuelCan;
+  
     public float beanHealth = 25f;
     public float fuelTankCapacity = 100f;
-    bool RoomKeyOne;
-    bool RoomKeyTwo;
-    bool RoomKeyThree;
+    public bool RoomKeyOne;
+    public bool RoomKeyTwo;
+    public bool RoomKeyThree;
 
     //Saving
     public int level;
@@ -80,8 +79,9 @@ public class Character : MonoBehaviour
     public AudioSource WalkAudio;
     public AudioSource HW_pickup;
 
-    public SaveSystem data;
-
+    //public SaveSystem data;
+    public LoadArenaInBckg bckgLoad;
+   
     void Start()
     {
         Initialization();
@@ -97,7 +97,9 @@ public class Character : MonoBehaviour
         flashlight = GetComponent<Flashlight>();
         Angel = GetComponent<WeepingAngelAI>();
         animator = GetComponent<Animator>();
-         data = GetComponent<SaveSystem>();
+
+        LoadArenaInBckg bckgLoad = GetComponent<LoadArenaInBckg>();
+         //data = GetComponent<SaveSystem>();
 
         currentHealth = maxHealth;
         currentFuel = maxFuel;
@@ -129,12 +131,12 @@ public class Character : MonoBehaviour
 
     public void SavePlayer()
     {
-        data.SavePlayerData();
+       // data.SavePlayerData();
     }
 
     public void LoadPlayer()
     {
-        data.LoadPlayerData();
+       // data.LoadPlayerData();
 
 
 
@@ -266,6 +268,11 @@ public class Character : MonoBehaviour
             SavePlayer();
 
         }
+        if (collision.gameObject.tag == "Arabis" && RoomKeyOne == true && RoomKeyTwo == true && RoomKeyThree == true)
+        {
+            bckgLoad.changeScene = true;
+        }
+        
     }
 
     void UpdateFuel()

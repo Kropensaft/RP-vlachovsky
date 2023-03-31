@@ -25,6 +25,8 @@ TagManager:
   - blade
   - LightningBolt
   - Snowfall
+  - fuelTank
+  - healingBeans
   layers:
   - Default
   - TransparentFX

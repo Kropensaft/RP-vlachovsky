@@ -330,6 +330,11 @@ public class Arabis : MonoBehaviour
     {
         animator.SetBool("GameEnded", true);
 
-        Invoke("SceneManager.LoadScene(creditsScene)", 5f);
+        Invoke("LoadCredits", 5f);
+    }
+
+    void LoadCredits()
+    {
+        SceneManager.LoadScene(creditsScene);
     }
 }
