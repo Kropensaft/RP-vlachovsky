@@ -1,11 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
-
-
-
+using UnityEngine;
 
 public class DialogueSystem : MonoBehaviour
 {
@@ -20,28 +15,24 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject backgroundOverlay;
     [SerializeField] private KeyCode skipButton = KeyCode.E;
-    
+
     private bool dialogueActive = false;
     public bool dialogueEnded;
     private bool coroutineActive;
 
     private void Start()
     {
-        
-        
     }
 
     private void Update()
     {
-        
-
         // Check if dialogue is active
         if (dialogueActive)
         {
             // Check if player pressed skip button
             if (!dialogueActive || !coroutineActive)
             {
-                EndDialogue(); 
+                EndDialogue();
             }
         }
     }
@@ -113,8 +104,8 @@ public class DialogueSystem : MonoBehaviour
             sixthLine
         };
 
-        if(currentPhaseIndex == 0)
-        StartCoroutine(DisplayDialogue(phase1Lines, dialogueText, 5));
+        if (currentPhaseIndex == 0)
+            StartCoroutine(DisplayDialogue(phase1Lines, dialogueText, 5));
         if (currentPhaseIndex == 1)
             StartCoroutine(DisplayDialogue(phase2Lines, dialogueText, 5));
         if (currentPhaseIndex == 2)
@@ -129,6 +120,5 @@ public class DialogueSystem : MonoBehaviour
         backgroundOverlay.SetActive(false);
 
         // Go to the next phase if there is one
-      
     }
 }

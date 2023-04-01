@@ -1,27 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class FlashlightMove : MonoBehaviour
 {
-
-
     //rotation
     private Camera mainCam;
+
     private Vector3 mousePos;
 
-
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         mainCam = GameObject.FindGameObjectWithTag("Player").GetComponent<Camera>();
-
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 rotation = mousePos - transform.position;

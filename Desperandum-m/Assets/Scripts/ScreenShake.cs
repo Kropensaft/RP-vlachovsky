@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ScreenShake : MonoBehaviour
 {
@@ -7,12 +6,12 @@ public class ScreenShake : MonoBehaviour
     public float shakeAmount = 0.7f;
     public float decreaseFactor = 1.0f;
 
-    void OnEnable()
+    private void OnEnable()
     {
         originalCamPos = Camera.main.transform.position;
     }
 
-    void Update()
+    private void Update()
     {
         if (shakeAmount > 0)
         {

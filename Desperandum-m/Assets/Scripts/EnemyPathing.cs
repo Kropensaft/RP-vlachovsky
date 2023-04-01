@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPathing : MonoBehaviour
 {
-  
     public Rigidbody2D rigid;
     public Transform enemyTransform;
     public Transform groundCheckPos;
@@ -14,11 +11,10 @@ public class EnemyPathing : MonoBehaviour
     [SerializeField] private LayerMask platformsLayerMask; // slouží pro grounded check
 
     public float speed = 10f;
-    bool mustTurn;
+    private bool mustTurn;
 
-   
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         goblinmovement = GetComponent<GoblinMovement>();
@@ -27,15 +23,14 @@ public class EnemyPathing : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-       if(isPathing)
+        if (isPathing)
         {
             mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, platformsLayerMask);
         }
     }
-    void Update()
-    {
-       
 
+    private void Update()
+    {
         if (goblinmovement.IsChasing)
         {
             isPathing = false;
@@ -44,25 +39,20 @@ public class EnemyPathing : MonoBehaviour
             Pathing();
     }
 
-   
-
-    void Pathing()
+    private void Pathing()
     {
-        if(mustTurn || coll.IsTouchingLayers(platformsLayerMask))
+        if (mustTurn || coll.IsTouchingLayers(platformsLayerMask))
         {
             Flip();
         }
         rigid.velocity = new Vector2(speed * Time.fixedDeltaTime, rigid.velocity.y);
-
     }
 
-    void Flip()
+    private void Flip()
     {
         isPathing = false;
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         speed *= -1;
         isPathing = true;
-
     }
-   
 }

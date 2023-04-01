@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LadderMovementz : MonoBehaviour
@@ -7,23 +5,23 @@ public class LadderMovementz : MonoBehaviour
     private float vertical;
     private float speed = 8f;
     private bool isLadder;
-    private bool isClimbing;
+    public bool isClimbing;
 
     [SerializeField] private Rigidbody2D rigid;
 
-    
-    void Update()
+    private void Update()
     {
         vertical = Input.GetAxis("Vertical");
 
-        if(isLadder && Mathf.Abs(vertical) > 0f)
+        if (isLadder && Mathf.Abs(vertical) > 0f)
         {
             isClimbing = true;
         }
     }
-     void FixedUpdate()
+
+    private void FixedUpdate()
     {
-        if(isClimbing)
+        if (isClimbing)
         {
             rigid.gravityScale = 0f;
             rigid.velocity = new Vector2(rigid.velocity.x, vertical * speed);
@@ -36,7 +34,7 @@ public class LadderMovementz : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == ("Ladder"))
+        if (collision.gameObject.tag == ("Ladder"))
         {
             Debug.Log("Climbing Ladder");
             isLadder = true;
@@ -45,7 +43,7 @@ public class LadderMovementz : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == ("Ladder"))
+        if (collision.gameObject.tag == ("Ladder"))
         {
             isLadder = false;
             isClimbing = false;

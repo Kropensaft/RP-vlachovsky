@@ -1,49 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine;
+
 public class AIPromtTextAnim : MonoBehaviour
 {
-
-    [SerializeField] TextMeshProUGUI _textMeshPro;
-    [SerializeField] float timeBtwnChars;
-    [SerializeField] float timeBtwnWords;
-
-
+    [SerializeField] private TextMeshProUGUI _textMeshPro;
+    [SerializeField] private float timeBtwnChars;
+    [SerializeField] private float timeBtwnWords;
 
     public string[] stringArray;
 
-    int i = 0;
+    private int i = 0;
 
     //SaveSystem data;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         EndCheck();
-       // data = GetComponent<SaveSystem>();
+        // data = GetComponent<SaveSystem>();
     }
 
     private void Update()
     {
-       
     }
+
     public void EndCheck()
     {
-
         if (i <= stringArray.Length - 1)
         {
-
             _textMeshPro.text = stringArray[i];
             StartCoroutine(TextVisible());
             //data.LoadPlayerData();
         }
-
-
     }
-
 
     private IEnumerator TextVisible()
     {
@@ -70,5 +60,4 @@ public class AIPromtTextAnim : MonoBehaviour
             yield return new WaitForSeconds(timeBtwnChars);
         }
     }
-
 }

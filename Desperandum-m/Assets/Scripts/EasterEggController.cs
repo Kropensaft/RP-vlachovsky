@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class EasterEggController : MonoBehaviour
 {
@@ -13,7 +10,7 @@ public class EasterEggController : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
+    private bool readyToJump;
 
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
@@ -23,20 +20,21 @@ public class EasterEggController : MonoBehaviour
 
     [Header("Ground Check")]
     public float playerHeight;
+
     public LayerMask whatIsGround;
-    bool grounded;
+    private bool grounded;
     public GameObject projectile;
     public Transform LHFirePoint, RHFirePoint;
     private bool leftHand;
     public Transform orientation;
     private Vector3 destination;
     public Camera cam;
-    float horizontalInput;
-    float verticalInput;
+    private float horizontalInput;
+    private float verticalInput;
 
-    Vector3 moveDirection;
+    private Vector3 moveDirection;
 
-    Rigidbody rb;
+    private Rigidbody rb;
 
     private void Start()
     {
@@ -81,26 +79,23 @@ public class EasterEggController : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             ShootProjectile();
         }
-         
     }
 
-    void ShootProjectile()
+    private void ShootProjectile()
     {
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-
-
 
         if (Physics.Raycast(ray, out hit))
             destination = hit.point;
         else
             destination = ray.GetPoint(1000);
 
-        if(leftHand)
+        if (leftHand)
         {
             leftHand = false;
             InstatiateProjectile(LHFirePoint);
@@ -110,14 +105,13 @@ public class EasterEggController : MonoBehaviour
             leftHand = true;
             InstatiateProjectile(RHFirePoint);
         }
-
-       
     }
 
-    void InstatiateProjectile(Transform firePoint)
+    private void InstatiateProjectile(Transform firePoint)
     {
         var projectileObj = Instantiate(projectile, firePoint.position, Quaternion.identity) as GameObject;
     }
+
     private void MovePlayer()
     {
         // calculate movement direction
@@ -144,8 +138,6 @@ public class EasterEggController : MonoBehaviour
         }
     }
 
-  
-
     private void Jump()
     {
         // reset y velocity
@@ -153,6 +145,7 @@ public class EasterEggController : MonoBehaviour
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
+
     private void ResetJump()
     {
         readyToJump = true;

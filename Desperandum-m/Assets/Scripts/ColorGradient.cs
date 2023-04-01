@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorGradient: MonoBehaviour
+public class ColorGradient : MonoBehaviour
 {
     public Slider slider;
     public Gradient colorGradient;

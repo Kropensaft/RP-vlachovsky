@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ArabisProjectile : MonoBehaviour
 {
@@ -12,8 +10,9 @@ public class ArabisProjectile : MonoBehaviour
 
     public Vector2 direction = Vector2.right;
 
+    
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // Move the projectile in the specified direction
         transform.position += (Vector3)direction * speed * Time.deltaTime;
@@ -24,11 +23,9 @@ public class ArabisProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Boundary") ||collision.CompareTag("Arabis"))
+        if (collision.CompareTag("Boundary") || collision.CompareTag("Arabis"))
         {
             Destroy(gameObject);
         }
     }
-    
-
 }

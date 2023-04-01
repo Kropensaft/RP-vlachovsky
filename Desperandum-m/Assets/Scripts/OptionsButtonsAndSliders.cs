@@ -5,7 +5,7 @@ public class OptionsButtonsAndSliders : MonoBehaviour
 {
     public Slider volumeSlider; // Reference to the Slider that will be used to control the volume
 
-    void Start()
+    private void Start()
     {
         // Set the initial value of the Slider to the current volume level
         volumeSlider.value = AudioListener.volume;

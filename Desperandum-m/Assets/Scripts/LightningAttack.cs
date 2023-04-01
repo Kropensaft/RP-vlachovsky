@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightningAttack : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class LightningAttack : MonoBehaviour
     private const float arenaHeight = 13.74f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         IsActive = false;
         attackDuration = duration;
@@ -28,7 +26,7 @@ public class LightningAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (IsActive)
         {
@@ -38,7 +36,6 @@ public class LightningAttack : MonoBehaviour
                 EndAttack();
             }
         }
-        
     }
 
     public void StartAttack()
@@ -48,15 +45,13 @@ public class LightningAttack : MonoBehaviour
 
         Vector3 randomPos = new Vector3(
             Random.Range(-arenaWidth / 2, arenaWidth / 2),
-            Random.Range(-arenaHeight / 2, arenaHeight / 2),-2f);
+            Random.Range(-arenaHeight / 2, arenaHeight / 2), -2f);
 
         GameObject lightningAttackObject = Instantiate(lightningAttackPrefab, randomPos, Quaternion.identity);
         LightningAttackObject lightningAttack = lightningAttackObject.GetComponent<LightningAttackObject>();
         lightningAttack.duration = attackDuration;
 
         screenshake.TriggerShake();
-       
-        
     }
 
     private void EndAttack()
@@ -64,7 +59,4 @@ public class LightningAttack : MonoBehaviour
         IsActive = false;
         timer = 0f;
     }
-
-   
-    
 }

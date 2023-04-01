@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Animations;
 
 public class ColdAttackObject : MonoBehaviour
 {
@@ -10,9 +9,9 @@ public class ColdAttackObject : MonoBehaviour
 
     private void Start()
     {
-
         animator = GetComponent<Animator>();
     }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -23,7 +22,4 @@ public class ColdAttackObject : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
 }
-

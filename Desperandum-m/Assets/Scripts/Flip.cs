@@ -1,46 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Flip : MonoBehaviour
 {
-    Rigidbody2D rigid;
+    private Rigidbody2D rigid;
 
-    float inputHorizontal;
-    float inputVertical;
+    private float inputHorizontal;
+    private float inputVertical;
 
-   
-   public bool facingRight = true;
-
-
+    public bool facingRight = true;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
 
-
-        if(inputHorizontal > 0 && !facingRight)
+        if (inputHorizontal > 0 && !facingRight)
         {
             flip();
         }
 
-        if(inputHorizontal < 0 && facingRight)
+        if (inputHorizontal < 0 && facingRight)
         {
             flip();
-
         }
-
     }
 
-    void flip()
+    private void flip()
     {
         Vector3 currentScale = gameObject.transform.localScale;
         currentScale.x *= -1;
@@ -48,5 +40,4 @@ public class Flip : MonoBehaviour
 
         facingRight = !facingRight;
     }
-
 }

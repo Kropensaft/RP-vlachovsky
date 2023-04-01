@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975862512709918653}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.48, y: -9.46, z: 5.0414267}
+  m_LocalPosition: {x: -26.48, y: -9.46, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,9 +154,9 @@ MonoBehaviour:
   MaxHP: 30
   isDead: 0
   canBeAttacked: 0
-  Player: {fileID: 0}
-  flashlight: {fileID: 0}
-  player: {fileID: 0}
+  Player: {fileID: 2380423724358164844, guid: 779d83449737eef4ca95016634361d53, type: 3}
+  flashlight: {fileID: 2380423724358164839, guid: 779d83449737eef4ca95016634361d53, type: 3}
+  player: {fileID: 2380423724358164835, guid: 779d83449737eef4ca95016634361d53, type: 3}
   animator: {fileID: 1975862512709918629}
   posY: 0
   posX: 0
@@ -212,9 +212,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Angel: {fileID: 1975862512709918630}
-  player: {fileID: 0}
+  player: {fileID: 2380423724358164835, guid: 779d83449737eef4ca95016634361d53, type: 3}
   flashlight: {fileID: 0}
-  Player: {fileID: 0}
+  Player: {fileID: 2380423724358164844, guid: 779d83449737eef4ca95016634361d53, type: 3}
   speed: 1
   flip: 0
   IsStatic: 0

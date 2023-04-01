@@ -2,7 +2,6 @@
 using TMPro;
 using UnityEngine;
 
-
 public class ArabisDialogue : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
@@ -10,15 +9,16 @@ public class ArabisDialogue : MonoBehaviour
     public float textSpeed;
     private int index;
     [SerializeField] private KeyCode skipButton = KeyCode.E;
+
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         textComponent.text = string.Empty;
         StartDialogue();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(skipButton))
         {
@@ -30,21 +30,18 @@ public class ArabisDialogue : MonoBehaviour
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-
             }
         }
-
-
     }
-    void StartDialogue()
-    {
 
+    private void StartDialogue()
+    {
         index = 0;
 
         StartCoroutine(TypeLine());
     }
 
-    IEnumerator TypeLine()
+    private IEnumerator TypeLine()
     {
         foreach (char c in lines[index].ToCharArray())
         {
@@ -52,19 +49,18 @@ public class ArabisDialogue : MonoBehaviour
             yield return new WaitForSeconds(textSpeed);
         }
     }
-    void NextLine()
+
+    private void NextLine()
     {
         if (index < lines.Length - 1)
         {
             index++;
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
-
         }
         else
         {
             gameObject.SetActive(false);
         }
     }
-
 }

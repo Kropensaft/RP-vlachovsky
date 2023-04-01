@@ -16,21 +16,16 @@ public class HomingBlade : MonoBehaviour
     private Rigidbody2D rigid;
     public LayerMask collisionMask;
 
-  
-
-    void Start()
+    private void Start()
     {
         playerTransform = GetPlayerTransform();
-        rigid= GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>();
         KeySpamDetector KSD = GetComponent<KeySpamDetector>();
 
         StartHomingCoroutine();
-
-
-
     }
 
-    Transform GetPlayerTransform()
+    private Transform GetPlayerTransform()
     {
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
@@ -44,35 +39,34 @@ public class HomingBlade : MonoBehaviour
         }
     }
 
-    IEnumerator EnableHoming()
+    private IEnumerator EnableHoming()
     {
         yield return new WaitForSeconds(homingDelay);
         homingEnabled = true;
         print("Started Homing");
-         isRunning = true;
+        isRunning = true;
     }
 
-    void Update()
+    private void Update()
     {
         if (homingEnabled)
         {
             transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, homingSpeed * Time.deltaTime);
         }
-
-        
     }
+
     public void StartHomingCoroutine()
     {
-        if(!isRunning)
-        StartCoroutine(EnableHoming());
+        if (!isRunning)
+            StartCoroutine(EnableHoming());
         else
         {
             StopCoroutine(EnableHoming());
-            StartCoroutine(EnableHoming());    
+            StartCoroutine(EnableHoming());
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Get the velocity of the circle
         Vector2 velocity = rigid.velocity;
@@ -97,7 +91,6 @@ public class HomingBlade : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("blade"))
@@ -109,9 +102,5 @@ public class HomingBlade : MonoBehaviour
             GetComponent<Rigidbody2D>().AddForce(direction * 2f, ForceMode2D.Impulse);
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(-direction * 2f, ForceMode2D.Impulse);
         }
-      
     }
-
-
-
 }

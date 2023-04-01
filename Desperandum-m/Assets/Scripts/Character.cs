@@ -1,16 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using System;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using UnityEngine;
-
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    //Pickups 
-  
+    //Pickups
+
     public float beanHealth = 25f;
     public float fuelTankCapacity = 100f;
     public bool RoomKeyOne;
@@ -20,75 +15,76 @@ public class Character : MonoBehaviour
     //Saving
     public int level;
 
-
-    //Sliders 
+    //Sliders
     public LampFuel fuelBar;
+
     public HealthBar healthBar;
 
     //fuel
     public float maxFuel = 300f;
-    public float currentFuel;
 
+    public float currentFuel;
 
     //health
     public Image lowHealthBorder;
+
     public float currentHealth;
     public float maxHealth = 100f;
     public bool IsDead;
 
-
     //move variables
     [SerializeField] private LayerMask platformsLayerMask; // slouží pro grounded check
+
     [HideInInspector] public bool isFacingLeft;
     public float speed;
-    float horizontal = 0f;
+    private float horizontal = 0f;
     public float runSpeed = 1.5f;
 
     //Minimap
     public Image minimap;
+
     public RawImage miniMap;
 
     //Collision variables
     private Rigidbody2D rigid;
+
     private BoxCollider2D boxCollider2d;
     public Collider2D doorCollider;
 
     //Enemy variables (angel)
     public WeepingAngelAI Angel;
-    public GameObject angel;
 
+    public GameObject angel;
 
     //Animation
     public Animator animator;
 
-
     //Fall state values
     public bool IsFalling = false;
+
     public float FallTreshold = -10f;
     public float jumpVelocity = 4f;
     private bool DoubleJump;
 
-
     //"Combat" variables
     public Flashlight flashlight;
+
     public Text ScoreText;
     public int score;
 
-
     //Audio
     public AudioSource WalkAudio;
+
     public AudioSource HW_pickup;
 
     //public SaveSystem data;
     public LoadArenaInBckg bckgLoad;
-   
-    void Start()
+
+    private void Start()
     {
         Initialization();
     }
 
-
-  
     protected virtual void Initialization()
     {
         rigid = transform.GetComponent<Rigidbody2D>();
@@ -99,8 +95,8 @@ public class Character : MonoBehaviour
         animator = GetComponent<Animator>();
 
         LoadArenaInBckg bckgLoad = GetComponent<LoadArenaInBckg>();
-         //data = GetComponent<SaveSystem>();
-
+        //data = GetComponent<SaveSystem>();
+        rigid.gravityScale = 1f;
         currentHealth = maxHealth;
         currentFuel = maxFuel;
 
@@ -110,9 +106,9 @@ public class Character : MonoBehaviour
         Cursor.visible = false;
 
         WalkAudio.Pause();
-       
+
         isFacingLeft = false;
-        
+
         healthBar.SetMaxHealth(maxHealth);
         fuelBar.SetMaxFuel(maxFuel);
         lowHealthBorder.enabled = false;
@@ -125,27 +121,20 @@ public class Character : MonoBehaviour
         RoomKeyThree = false;
 
         SavePlayer();
-
     }
-
 
     public void SavePlayer()
     {
-       // data.SavePlayerData();
+        // data.SavePlayerData();
     }
 
     public void LoadPlayer()
     {
-       // data.LoadPlayerData();
-
-
-
+        // data.LoadPlayerData();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-
-
         horizontal = Input.GetAxisRaw("Horizontal") * runSpeed;
         float vertical = Input.GetAxis("Vertical");
 
@@ -155,22 +144,20 @@ public class Character : MonoBehaviour
         rigid.AddForce(movement * speed);
         rigid.velocity = new Vector2(horizontal * speed * Time.deltaTime, rigid.velocity.y);
 
-        
         //check for death at a fixed frame rate
         if (currentHealth <= 0)
         {
             IsDead = true;
             SavePlayer();
-
         }
-
-
     }
-    void PauseChoir() { HW_pickup.Pause(); }
+
+    private void PauseChoir()
+    { HW_pickup.Pause(); }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Door1" && RoomKeyOne)
+        if (collision.gameObject.tag == "Door1" && RoomKeyOne)
         {
             collision.gameObject.SetActive(false);
         }
@@ -182,17 +169,14 @@ public class Character : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
         }
-
     }
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.name == "firstSave")
-        {
-            SavePlayer();
-        }
 
-      //Add fuel if you collide with fuel tank
-        if (collision.gameObject.name == "fuelTank")
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+
+        //Add fuel if you collide with fuel tank
+        if (collision.gameObject.tag == "fuelTank")
         {
             Debug.Log("Restored 75 fuel");
             fuelBar.SetFuel(currentFuel += fuelTankCapacity);
@@ -202,15 +186,14 @@ public class Character : MonoBehaviour
             {
                 currentFuel = maxFuel;
             }
-
         }
 
-        if(collision.gameObject.tag == "EasterEggCave")
+        if (collision.gameObject.tag == "EasterEggCave")
         {
             SceneManager.LoadScene("EALoading");
         }
         //Add health if you collide with beans
-        if (collision.gameObject.name == "healingBeans")
+        if (collision.gameObject.tag == "healingBeans")
         {
             Debug.Log("Restored 15 HP");
             healthBar.SetHealth(currentHealth += beanHealth);
@@ -222,14 +205,12 @@ public class Character : MonoBehaviour
             }
         }
 
-        if(collision.gameObject.name == "HW")
+        if (collision.gameObject.name == "HW")
         {
             Debug.Log("Picked up Holy Water");
             collision.gameObject.SetActive(false);
             HW_pickup.Play();
             Invoke(nameof(PauseChoir), 3f);
-            
-            
         }
 
         if (collision.gameObject.name == "mapSprite")
@@ -238,16 +219,14 @@ public class Character : MonoBehaviour
             collision.gameObject.SetActive(false);
             minimap.enabled = true;
             miniMap.enabled = true;
-
         }
 
-        if(collision.gameObject.tag == "RoomKey1")
+        if (collision.gameObject.tag == "RoomKey1")
         {
             Debug.Log("Picked up first room key");
             collision.gameObject.SetActive(false);
             RoomKeyOne = true;
             SavePlayer();
-
         }
 
         if (collision.gameObject.tag == "RoomKey2")
@@ -256,8 +235,6 @@ public class Character : MonoBehaviour
             collision.gameObject.SetActive(false);
             RoomKeyTwo = true;
             SavePlayer();
-
-
         }
 
         if (collision.gameObject.tag == "RoomKey3")
@@ -266,49 +243,38 @@ public class Character : MonoBehaviour
             collision.gameObject.SetActive(false);
             RoomKeyThree = true;
             SavePlayer();
-
         }
         if (collision.gameObject.tag == "Arabis" && RoomKeyOne == true && RoomKeyTwo == true && RoomKeyThree == true)
         {
             bckgLoad.changeScene = true;
         }
-        
     }
 
-    void UpdateFuel()
+    private void UpdateFuel()
     {
         if (flashlight.flashlightLoaded)
         {
-
             currentFuel -= 0.1f;
             fuelBar.SetFuel(currentFuel);
-
         }
-
         else if (!flashlight.flashlightLoaded)
         {
             fuelBar.SetFuel(currentFuel);
         }
     }
 
-    
-
-    void Update()
+    private void Update()
     {
-
-
         UpdateFuel();
         ScoreText.text = "Score: " + score;
         animator.SetFloat("currentHealth", currentHealth);
-       
-        
-        //Check for health threshold to enable visual signal
-        if(currentHealth > (maxHealth / 3))
-        {
-        lowHealthBorder.enabled = false;
 
+        //Check for health threshold to enable visual signal
+        if (currentHealth > (maxHealth / 3))
+        {
+            lowHealthBorder.enabled = false;
         }
-    
+
         //Check transform read-only values if Character is facing left
         if (transform.lossyScale.x == -1)
         {
@@ -326,62 +292,51 @@ public class Character : MonoBehaviour
             // Debug.Log(raycastHit2d.collider);
             animator.SetBool("IsGrounded", true);
             return raycastHit2d.collider != null;
-            
         }
 
         //Jump function
 
-        if(IsGrounded() && !Input.GetKey(KeyCode.Space))
+        if (IsGrounded() && !Input.GetKey(KeyCode.Space))
         {
             DoubleJump = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(IsGrounded() || DoubleJump)
+            if (IsGrounded() || DoubleJump)
             {
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpVelocity);
 
                 DoubleJump = !DoubleJump;
-            }    
-          
+            }
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && rigid.velocity.y > 0f)
+        if (Input.GetKeyDown(KeyCode.Space) && rigid.velocity.y > 0f)
         {
             rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y * 1.2f);
         }
-            
+
         //Check for Fall State
         if (rigid.velocity.y < 0 && !IsGrounded())
         {
-            
             IsFalling = true;
             Debug.Log("Character is falling");
             animator.SetBool("IsFalling", true);
-
-
         }
         else
         {
-            
             animator.SetBool("IsFalling", false);
             IsFalling = false;
-
         }
 
-       
-        //Damage debug 
-        if(Input.GetMouseButtonDown(2))
+        //Damage debug
+        if (Input.GetMouseButtonDown(2))
         {
             TakeDamage(10);
         }
 
-
-
-     
         //Play walk audio when walking
-        if(IsFalling)
+        if (IsFalling)
         {
             WalkAudio.Pause();
         }
@@ -389,43 +344,34 @@ public class Character : MonoBehaviour
 
         {
             WalkAudio.UnPause();
-
         }
         else if (Input.GetKeyDown(KeyCode.A) && IsGrounded())
         {
             WalkAudio.UnPause();
-
         }
-
         else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
         {
             WalkAudio.Pause();
-
-
         }
-        
     }
-
-    
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
         healthBar.SetHealth(currentHealth);
-        
-        if(IsDead)
+
+        if (IsDead)
         {
             animator.SetTrigger("IsDead");
             rigid.bodyType = RigidbodyType2D.Static;
             Invoke(nameof(InvokeScene), 1.50f);
-
         }
         if (currentHealth < (maxHealth / 3) && !IsDead)
         {
-            lowHealthBorder.enabled = true; 
+            lowHealthBorder.enabled = true;
         }
-        else 
+        else
             lowHealthBorder.enabled = false;
     }
 
@@ -434,15 +380,11 @@ public class Character : MonoBehaviour
         currentFuel -= damage;
 
         fuelBar.SetFuel(currentFuel);
-
     }
-    void InvokeScene()
+
+    private void InvokeScene()
     {
         SceneManager.LoadScene("MainMenu");
         Destroy(gameObject);
     }
-
-
-   
-    
 }

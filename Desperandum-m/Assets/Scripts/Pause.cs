@@ -1,36 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 public class Pause : MonoBehaviour
 {
-    
-
     public bool IsPaused;
-    
 
-
-    void Start()
+    private void Start()
     {
         IsPaused = false;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(IsPaused)
+        if (IsPaused)
         {
             SceneManager.LoadScene("PauseMenu");
-            
         }
-        
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             IsPaused = !IsPaused;
         }
     }
-
-    
 }

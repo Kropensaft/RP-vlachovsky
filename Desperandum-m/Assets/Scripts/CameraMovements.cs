@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System;
 
 public class CameraMovements : MonoBehaviour
 {
@@ -9,6 +7,7 @@ public class CameraMovements : MonoBehaviour
 
     public Vector3 NewPosition;
     public Vector3 FinalPosition;
+
     [Range(0f, 25f)]
     public float LerpSpeed = 1f;
 

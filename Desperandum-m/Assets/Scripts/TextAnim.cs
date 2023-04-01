@@ -1,27 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class TextAnim : MonoBehaviour
 {
-
-    [SerializeField] TextMeshProUGUI _textMeshPro;
-    [SerializeField] float timeBtwnChars;
-    [SerializeField] float timeBtwnWords;
-
+    [SerializeField] private TextMeshProUGUI _textMeshPro;
+    [SerializeField] private float timeBtwnChars;
+    [SerializeField] private float timeBtwnWords;
 
     private bool skip = false;
 
     public string[] stringArray;
 
-    int i = 0;
-
-
+    private int i = 0;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         EndCheck();
     }
@@ -38,23 +33,20 @@ public class TextAnim : MonoBehaviour
     {
         skip = true;
     }
+
     public void EndCheck()
     {
-        
-       if(i <= stringArray.Length -1)
-         {
-           
-                _textMeshPro.text = stringArray[i];
-                StartCoroutine(TextVisible());
-         }
-        
-        
-    }    
+        if (i <= stringArray.Length - 1)
+        {
+            _textMeshPro.text = stringArray[i];
+            StartCoroutine(TextVisible());
+        }
+    }
+
     public void LoadLevel()
     {
         SceneManager.LoadScene("FirstLevel");
     }
-
 
     private IEnumerator TextVisible()
     {
@@ -68,18 +60,17 @@ public class TextAnim : MonoBehaviour
             int visibleCount = counter % (totalvisibleCharacters + 1);
             _textMeshPro.maxVisibleCharacters = visibleCount;
 
-            if(visibleCount >= totalvisibleCharacters)
+            if (visibleCount >= totalvisibleCharacters)
 
             {
                 i += 1;
                 Invoke("EndCheck", timeBtwnWords);
                 break;
-            }    
+            }
 
             counter += 1;
 
             yield return new WaitForSeconds(timeBtwnChars);
         }
     }
-
 }

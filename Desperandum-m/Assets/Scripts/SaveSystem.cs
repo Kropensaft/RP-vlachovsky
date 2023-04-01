@@ -58,7 +58,6 @@ public class SaveSystem : MonoBehaviour
             GetComponent<Character>().currentFuel = playerFuel;
             GetComponent<Character>().score = playerScore;
             LoadLevelScene();
-
         }
     }
 }

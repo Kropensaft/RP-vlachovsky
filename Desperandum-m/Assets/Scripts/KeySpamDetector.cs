@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.U2D;
+﻿using UnityEngine;
 using UnityEngine.UI;
-
 
 public class KeySpamDetector : MonoBehaviour
 {
@@ -20,21 +16,16 @@ public class KeySpamDetector : MonoBehaviour
     private float keyHoldDuration;
     public Arabis arabis;
 
-    
-    
     private void Start()
     {
         Arabis arabis = GetComponent<Arabis>();
         fillBar.value = 0f;
         fillBar.interactable = false;
-        
     }
+
     private void Update()
     {
-       
         currentTime += Time.deltaTime;
-
-        
 
         if (currentTime >= eventDuration)
         {
@@ -43,10 +34,9 @@ public class KeySpamDetector : MonoBehaviour
                 arabis.QTEactive = false;
                 arabis.TakeDamage1();
                 Debug.Log("QTE Completed");
-                             
             }
-            
-            if(arabis.QTEcompleted == 1 && barFill >= threshold)
+
+            if (arabis.QTEcompleted == 1 && barFill >= threshold)
             {
                 arabis.QTEactive = false;
                 arabis.TakeDamage2();
@@ -66,29 +56,21 @@ public class KeySpamDetector : MonoBehaviour
                 currentTime = 0f;
                 this.gameObject.SetActive(false);
             }
-            
-
         }
-       
         else
         {
             if (Input.GetKey(KeyCode.F))
             {
-
-
                 keyHoldDuration += Time.deltaTime;
 
                 if (keyHoldDuration < 0.1f)
                     barFill += fillSpeed * Time.deltaTime;
-                
-      
-               
             }
             else
             {
-                    keyHoldDuration= 0f;
-                    barFill -= decreaseSpeed * Time.deltaTime;
-                if(barFill < 0)
+                keyHoldDuration = 0f;
+                barFill -= decreaseSpeed * Time.deltaTime;
+                if (barFill < 0)
                 {
                     barFill = 0;
                 }
@@ -99,6 +81,4 @@ public class KeySpamDetector : MonoBehaviour
             vignette.color = new Color(0, 0, 0, 1 - barFill);
         }
     }
-
-   
 }

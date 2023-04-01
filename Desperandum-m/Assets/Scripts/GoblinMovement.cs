@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GoblinMovement : MonoBehaviour
@@ -9,14 +7,14 @@ public class GoblinMovement : MonoBehaviour
 
     //Player variables
     public GameObject Player;
+
     public Character player;
 
     //Animation
     public Animator animator;
 
     //goblin vars
-    [SerializeField] Transform goblinTransform;
-
+    [SerializeField] private Transform goblinTransform;
 
     public BoxCollider2D coll;
     private Rigidbody2D rigid;
@@ -25,8 +23,7 @@ public class GoblinMovement : MonoBehaviour
     public float jumpTimer = 0;
     public bool IsChasing = false;
     public bool IsAlive;
-     float GoblinDamage;
-
+    private float GoblinDamage;
 
     private void Start()
     {
@@ -41,39 +38,32 @@ public class GoblinMovement : MonoBehaviour
         jumpTimer = 3f;
     }
 
-
-
     private void Update()
     {
         jumpTimer -= Time.deltaTime;
 
-        if(jumpTimer < 0) jumpTimer = 0;
+        if (jumpTimer < 0) jumpTimer = 0;
 
-        if(jumpTimer == 0)
+        if (jumpTimer == 0)
         {
             Jump();
             jumpTimer += 4;
-
         }
     }
 
-    void Jump()
+    private void Jump()
     {
         rigid.AddForce(Vector2.up * 50f);
-
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-
         if (collision.gameObject == Player && IsAlive)
         {
             IsChasing = true;
         }
-
-
-
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         IsChasing = false;
@@ -86,14 +76,9 @@ public class GoblinMovement : MonoBehaviour
             if (IsAlive)
             {
                 player.TakeGoblinDamage(GoblinDamage * Time.deltaTime);
-
             }
             Debug.Log("Attacking Player");
             animator.SetBool("IsAttacking", true);
-
         }
-
     }
-    
-
 }

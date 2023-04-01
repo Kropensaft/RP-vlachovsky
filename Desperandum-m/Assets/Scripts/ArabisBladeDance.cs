@@ -13,12 +13,13 @@ public class ArabisBladeDance : MonoBehaviour
     public Arabis arabis;
     public bool isSpawningBlades;
 
-    void Start()
+    private void Start()
     {
         StartBladeCoroutine(1);
         Arabis arabis = GetComponent<Arabis>();
     }
-    void OnEnable()
+
+    private void OnEnable()
     {
         if (arabis.finalPhaseFlag && !isSpawningBlades)
         {
@@ -28,7 +29,7 @@ public class ArabisBladeDance : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnBlades(int numberOfSpawns)
+    private IEnumerator SpawnBlades(int numberOfSpawns)
     {
         // Clear the list of spawned blades before spawning new ones
         spawnedBlades.Clear();
@@ -54,28 +55,16 @@ public class ArabisBladeDance : MonoBehaviour
         yield return new WaitForSeconds(bladeDuration);
     }
 
-
     public void StartBladeCoroutine(int param)
     {
         StartCoroutine(SpawnBlades(param));
     }
-    
+
     public void DestroyBlades()
     {
-        foreach(GameObject blade in spawnedBlades)
+        foreach (GameObject blade in spawnedBlades)
         {
             Destroy(blade);
         }
-        
-
     }
-    
-
-   
 }
-
-
-
-
-
-

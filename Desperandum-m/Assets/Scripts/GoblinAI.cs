@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
-
 
 public class GoblinAI : MonoBehaviour
 {
-
     public GameObject projectile;
     public Projectile projectileSc;
     public GoblinMovement goblinMovement;
@@ -21,12 +15,10 @@ public class GoblinAI : MonoBehaviour
 
     // Start is called before the first frame update
 
-   
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
 
-        
         rigid = GetComponent<Rigidbody2D>();
         goblinMovement = GetComponent<GoblinMovement>();
         Projectile projectileSc = GetComponent<Projectile>();
@@ -36,26 +28,22 @@ public class GoblinAI : MonoBehaviour
         isDead = false;
     }
 
-    void TakeDamage()
+    private void TakeDamage()
     {
-        
-       currentHealth -= projectileSc.damage;
+        currentHealth -= projectileSc.damage;
         if (currentHealth <= 0f)
         {
             Die();
-            isDead = true; 
-
+            isDead = true;
         }
     }
+
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-       
-             
     }
 
-
-    void Die()
+    private void Die()
     {
         rigid.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("IsDead");
@@ -64,7 +52,6 @@ public class GoblinAI : MonoBehaviour
         player.score += 10;
     }
 
-    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("projectile"))
@@ -72,8 +59,4 @@ public class GoblinAI : MonoBehaviour
             TakeDamage();
         }
     }
-
-
-  
-
 }

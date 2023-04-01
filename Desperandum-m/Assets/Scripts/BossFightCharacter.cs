@@ -1,11 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 
 public class BossFightCharacter : MonoBehaviour
 {
@@ -20,21 +16,27 @@ public class BossFightCharacter : MonoBehaviour
     public float MoveSpeed;
     private Vector2 moveInput;
     public TrailRenderer _trail;
+
     //Dash ability
     public float dashSpeed = 6f;
 
     public AudioSource audSource;
     public AudioClip hurtAudio;
+
     //Elemental variables
     public bool isSlowed;
+
     public bool isStunned;
     public float slowDuration;
     public float slowAmount;
 
+    public GameObject deathText;
 
     public Image stunVignette;
+    public Image deathVignette;
     public GameObject stunnedText;
 
+    public bool isDead;
 
     //Dash Slider variables
     public Vector3 lastPos;
@@ -59,14 +61,13 @@ public class BossFightCharacter : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         audSource = GetComponent<AudioSource>();
         healthbar.SetMaxHealth(maxHealth);
-        pause= GetComponent<Pause>();
-       
+        pause = GetComponent<Pause>();
+
         _trail = GetComponent<TrailRenderer>();
         Vector4 color = new Vector4(0, 0, 0, 0);
         stunVignette.color = color;
         stunnedText.SetActive(false);
         activeMoveSpeed = MoveSpeed;
-
     }
 
     public static BossFightCharacter Instance;
@@ -79,8 +80,8 @@ public class BossFightCharacter : MonoBehaviour
         }
     }
 
-        // Update is called once per frame
-        private void Update()
+    // Update is called once per frame
+    private void Update()
     {
         lastPos = new Vector3(transform.position.x, transform.position.y, -2);
 
@@ -92,13 +93,12 @@ public class BossFightCharacter : MonoBehaviour
 
         rb.velocity = moveInput * activeMoveSpeed;
 
-        if(isStunned) 
+        if (isStunned)
         {
             activeMoveSpeed = 0f;
             stunVignette.enabled = true;
             stunnedText.SetActive(true);
             stunVignette.color = new Color(0, 0, 0, .5f);
-
         }
         else
         {
@@ -108,19 +108,16 @@ public class BossFightCharacter : MonoBehaviour
 
         if (isSlowed) { ApplySlow(slowAmount, slowDuration); }
 
-        if(isDashing)
+        if (isDashing)
         {
-           _trail.emitting = true;
-            
-
+            _trail.emitting = true;
         }
-        else {_trail.emitting = false; }
+        else { _trail.emitting = false; }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (DashCooldownCounter <= 0 && dashCounter <= 0)
             {
-               
                 isDashing = true;
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
@@ -143,6 +140,14 @@ public class BossFightCharacter : MonoBehaviour
             isDashing = false;
             DashCooldownCounter -= Time.deltaTime;
         }
+        if (isDead)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("E pressed");
+                SceneManager.LoadScene("ArabisArena");
+            }
+        }
     }
 
     public void TakeDamage(float damage)
@@ -153,8 +158,11 @@ public class BossFightCharacter : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            isDead = true;
             rb.bodyType = RigidbodyType2D.Static;
-            Die();
+            deathVignette.enabled = true;
+            deathText.SetActive(true);
+            StopAllCoroutines();
         }
     }
 
@@ -168,7 +176,7 @@ public class BossFightCharacter : MonoBehaviour
             screenshake.TriggerShake();
         }
 
-        if(collision.tag == "LightningBolt" && !isDashing && !arabis.QTEactive)
+        if (collision.tag == "LightningBolt" && !isDashing && !arabis.QTEactive)
         {
             ApplyStun(lightningattack.stunDuration);
             Debug.Log("Stunned");
@@ -176,13 +184,11 @@ public class BossFightCharacter : MonoBehaviour
 
         if (collision.tag == "Snowfall" && !isDashing && !arabis.QTEactive)
         {
-            
             ApplySlow(slowAmount, slowDuration);
             Debug.Log("Slowed");
-
         }
-
     }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "blade" && !isDashing && !arabis.QTEactive)
@@ -192,10 +198,7 @@ public class BossFightCharacter : MonoBehaviour
             screenshake.TriggerShake();
         }
     }
-    
-    private void Die()
-    {
-    }
+
     public void ApplySlow(float slowAmount, float duration)
     {
         if (!isSlowed)
@@ -204,9 +207,8 @@ public class BossFightCharacter : MonoBehaviour
             isSlowed = true;
             slowDuration = duration;
             StopCoroutine("RemoveSlow");
-            StartCoroutine(RemoveSlow( duration));
+            StartCoroutine(RemoveSlow(duration));
         }
-      
     }
 
     private IEnumerator RemoveSlow(float duration)
@@ -216,19 +218,16 @@ public class BossFightCharacter : MonoBehaviour
         isSlowed = false;
     }
 
-
     public void ApplyStun(float duration)
     {
         if (!isStunned)
         {
             isStunned = true;
-            
+
             StartCoroutine(RemoveStun(duration));
-            
         }
         else
         {
-            
             StopCoroutine("RemoveStun");
             StartCoroutine(RemoveStun(duration));
         }
@@ -239,6 +238,9 @@ public class BossFightCharacter : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         isStunned = false;
-        
+    }
+
+    public void Death()
+    {
     }
 }

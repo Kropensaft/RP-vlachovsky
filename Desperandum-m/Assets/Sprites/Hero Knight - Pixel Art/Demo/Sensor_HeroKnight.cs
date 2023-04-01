@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Sensor_HeroKnight : MonoBehaviour {
-
+public class Sensor_HeroKnight : MonoBehaviour
+{
     private int m_ColCount = 0;
 
     private float m_DisableTimer;
@@ -19,17 +18,17 @@ public class Sensor_HeroKnight : MonoBehaviour {
         return m_ColCount > 0;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         m_ColCount++;
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         m_ColCount--;
     }
 
-    void Update()
+    private void Update()
     {
         m_DisableTimer -= Time.deltaTime;
     }
